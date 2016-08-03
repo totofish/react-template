@@ -1,0 +1,79 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  font-family: Helvetica Neue,Helvetica,PingFangTC-Regular,PingFangSC-Regular,Microsoft JhengHei,'微軟正黑體',Arial,sans-serif;
+}
+
+.scene {
+  &__title {
+    position: fixed;
+    width: 100%;
+    height: 50px;
+    background-color: rgba(57, 86, 105, 0.38);
+    line-height: 50px;
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1.5rem;
+    z-index: 10;
+
+  }
+
+  &__button {
+    font-size: 0.8rem;
+    margin-left: 5px;
+  }
+
+  &__bg {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background-image: url(/image/image-file.png); /* 外部載入 */
+    background-size: cover;
+    background-position: center center;
+    filter:blur(30px) brightness(110%) sepia(65%);
+  }
+
+  @keyframes bg-flash {
+      0%   {filter:brightness(100%) sepia(50%)}
+      25%  {filter:brightness(75%) sepia(40%)}
+      50%  {filter:brightness(95%) sepia(60%)}
+      75%  {filter:brightness(80%) sepia(55%)}
+      100% {filter:brightness(100%) sepia(50%)}
+  }
+
+  &__icon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    background-size: cover;
+    background-image: url(../image/file.png); /* 內嵌 */
+    margin: auto;
+    border: solid 30px rgba(0, 97, 189, 0.34);
+    animation: bg-flash 2s infinite;
+    cursor: pointer;
+  }
+
+  &__circle {
+    width: 220px;
+    height: 220px;
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 100%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -110px;
+    margin-left: -110px;
+
+    &--black {
+      background-color: rgba(150, 137, 94, 0.3);
+    }
+  }
+
+}

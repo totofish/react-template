@@ -34,34 +34,34 @@ gulp.task('clear', function(callback) {
 
 gulp.task('copyImg', function() {
   return gulp.src(['src/assets/image/**/*'])
-         .pipe($.plumber({
-           errorHandler: onError
-         }))
-         .pipe(gulp.dest('dist/image')) // imagemin 最佳化圖檔有些圖可能會複製不過去,所以先 clone 一份到 image 防止漏圖
-         .pipe($.imagemin({
-           optimizationLevel: 3,
-           progressive: true,
-           interlaced: true,
-           multipass: true
-         }))
-         .pipe(gulp.dest('dist/image'));
+             .pipe($.plumber({
+               errorHandler: onError
+             }))
+             .pipe(gulp.dest('dist/image')) // imagemin 最佳化圖檔有些圖可能會複製不過去,所以先 clone 一份到 image 防止漏圖
+             .pipe($.imagemin({
+               optimizationLevel: 3,
+               progressive: true,
+               interlaced: true,
+               multipass: true
+             }))
+             .pipe(gulp.dest('dist/image'));
 });
 
 gulp.task('copyScript', function() {
   return gulp.src(['src/assets/scripts/**/*'])
-         .pipe($.plumber({
-           errorHandler: onError
-         }))
-         .pipe($.uglify())
-         .pipe(gulp.dest('dist/scripts'));
+             .pipe($.plumber({
+               errorHandler: onError
+             }))
+             .pipe($.uglify())
+             .pipe(gulp.dest('dist/scripts'));
 });
 
 gulp.task('copyHTML', function() {
   return gulp.src(['src/*.html'])
-         .pipe($.plumber({
-           errorHandler: onError
-         }))
-         .pipe(gulp.dest('dist'));
+             .pipe($.plumber({
+               errorHandler: onError
+             }))
+             .pipe(gulp.dest('dist'));
 });
 
 ///////////////////////////////
@@ -73,7 +73,7 @@ gulp.task("webpack-dev-server", function(callback) {
   var config = Object.create(webpackConfig);
   // Inline mode 比較好用
   for(var index in config.entry){
-    config.entry[index].unshift("webpack-dev-server/client?http://localhost:"+port+"/", "webpack/hot/dev-server");
+    config.entry[index].unshift(`webpack-dev-server/client?http://localhost:${port}/`, "webpack/hot/dev-server");
   }
   config.devtool = "eval";
   config.debug = true;
@@ -82,8 +82,8 @@ gulp.task("webpack-dev-server", function(callback) {
     hot: true,
     stats: { colors: true },
     publicPath: config.output.publicPath,
-    // historyApiFallback: true, // 想自定路由就不要設true
-    contentBase: path.join(__dirname+'/src'),
+    // historyApiFallback: false, // 想自定路由就不要設true
+    contentBase: path.join(__dirname + '/src'),
     compress: true,  // use gzip compression
     watchOptions: {
       aggregateTimeout: 300,
@@ -99,10 +99,10 @@ gulp.task("webpack-dev-server", function(callback) {
   var router = express.Router();
   // router ’/' => index.html
   router.get('/home*', function (req, res, next) {
-    res.sendFile(path.join(__dirname+'/src/index.html'));
+    res.sendFile(path.join(__dirname + '/src/index.html'));
   });
   router.get('/page*', function (req, res, next) {
-    res.sendFile(path.join(__dirname+'/src/page.html'));
+    res.sendFile(path.join(__dirname + '/src/page.html'));
   });
   router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
   server.app.use(router);
@@ -111,10 +111,10 @@ gulp.task("webpack-dev-server", function(callback) {
   server.listen(port, "localhost", function(err) {
     if (err) throw new $.util.PluginError("webpack-dev-server", err);
     // Server listening
-    $.util.log("[webpack-dev-server]", "http://localhost:" + port + "/webpack-dev-server/");
-    $.util.log("[webpack-dev-server]", "http://localhost:" + port + "/");
+    $.util.log("[webpack-dev-server]", `http://localhost:${port}/webpack-dev-server/`);
+    $.util.log("[webpack-dev-server]", `http://localhost:${port}/`);
     // callback();
-    opener("http://localhost:"+port+"/");
+    opener(`http://localhost:${port}/`);
   });
 
 });

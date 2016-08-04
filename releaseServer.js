@@ -15,7 +15,7 @@ app.get('/page*', function (req, res) {
 });
 
 
-app.listen(8080, function () {
+app.listen(port, function () {
   console.info('Release Test Server Start...');
   opener("http://localhost:"+port+"/home");
 });

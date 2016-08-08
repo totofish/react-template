@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Title from 'components/view/Title';
-import { html } from 'libs';
+import { html } from 'react-libs';
 
 // 如要內嵌img
 // var img = require("url!assets/image/file.png");

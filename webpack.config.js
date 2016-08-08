@@ -1,11 +1,11 @@
 'use strict';
 
-var path              = require('path');
-var autoprefixer      = require('autoprefixer');
-var webpack           = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var argv              = require('minimist')(process.argv.slice(2), { boolean:['release'] });
-process.env.NODE_ENV = argv.release ? 'production' : 'development';
+const path              = require('path');
+const autoprefixer      = require('autoprefixer');
+const webpack           = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const argv              = require('minimist')(process.argv.slice(2), { boolean:['release'] });
+process.env.NODE_ENV    = argv.release ? 'production' : 'development';
 
 module.exports = {
   entry: {

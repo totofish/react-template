@@ -1,8 +1,8 @@
-var path = require('path');
-var express = require('express');
-var app = express();
-var opener = require("opener");
-var port = 8080;
+const path = require('path');
+const express = require('express');
+const app = express();
+const opener = require("opener");
+const port = 8080;
 
 app.use(express.static(__dirname + '/dist'));
 

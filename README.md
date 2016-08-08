@@ -10,7 +10,7 @@
 $ npm install
 $ npm run dev          // development開發測試
 $ npm run release      // production發佈
-
+$ npm run install      // install self git module
 ```
 
 
@@ -21,4 +21,5 @@ $ npm run release      // production發佈
 > 使用環境變數設置Production發佈正確設定.
 >
 > 使用gulp將Production發佈檔案整理至/dist並壓縮優化相關檔案.
-
+>
+> 使用npm install git方式使用自製module.

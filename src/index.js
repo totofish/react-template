@@ -8,10 +8,10 @@ import createLogger from 'redux-logger';
 import reducer from 'reducers';
 import domready from 'domready';
 import useScroll from 'react-router-scroll';
-
-import 'assets/sass/styles';
 import Scene from 'components/view/Scene';
 import Stage from 'components/view/Stage';
+import 'assets/sass/styles';
+import 'react-libs/dist/react-libs.css';
 
 const middlewares = [];
 if (process.env.NODE_ENV === 'development') {

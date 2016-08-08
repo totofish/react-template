@@ -9,7 +9,8 @@ import domready from 'domready';
 
 import 'assets/sass/styles';
 import Title from 'components/view/Title';
-import { html } from 'libs';
+import { html } from 'react-libs';
+import 'react-libs/dist/react-libs.css';
 
 const middlewares = [];
 if (process.env.NODE_ENV === 'development') {

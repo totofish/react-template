@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { trace } from 'actions/trace';
-import { BaseComponent } from 'libs';
+import { BaseComponent } from 'react-libs';
 import { global } from 'constants/config';
 
 export class Title extends BaseComponent {

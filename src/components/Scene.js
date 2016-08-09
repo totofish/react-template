@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Title from 'components/view/Title';
+import Title from 'components/Title';
 import { html } from 'react-libs';
 
 // 如要內嵌img

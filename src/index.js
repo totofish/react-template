@@ -8,8 +8,8 @@ import createLogger from 'redux-logger';
 import reducer from 'reducers';
 import domready from 'domready';
 import useScroll from 'react-router-scroll';
-import Scene from 'components/view/Scene';
-import Stage from 'components/view/Stage';
+import Scene from 'components/Scene';
+import Stage from 'components/Stage';
 import 'assets/sass/styles';
 import 'react-libs/dist/react-libs.css';
 

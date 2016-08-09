@@ -8,7 +8,7 @@ import reducer from 'reducers';
 import domready from 'domready';
 
 import 'assets/sass/styles';
-import Title from 'components/view/Title';
+import Title from 'components/Title';
 import { html } from 'react-libs';
 import 'react-libs/dist/react-libs.css';
 

@@ -1,17 +1,17 @@
 'use strict';
 
-var path = require('path'),
+let path = require('path'),
     gulp = require('gulp'),
     del = require('del'),
     $ = require('gulp-load-plugins')(),
-    webpack = require("webpack"),
-    WebpackDevServer = require("webpack-dev-server"),
-    opener = require("opener"),
+    webpack = require('webpack'),
+    WebpackDevServer = require('webpack-dev-server'),
+    opener = require('opener'),
     express = require('express'),
-    port = 8080;
-var argv = require('minimist')(process.argv.slice(2), { boolean:['release'] });
-var webpackConfig = require("./webpack.config.js");
-var onError = function(err) {
+    portfinder = require('portfinder');
+let argv = require('minimist')(process.argv.slice(2), { boolean:['release'] });
+let webpackConfig = require('./webpack.config.js');
+let onError = function(err) {
     console.log(err); // 詳細錯誤訊息
     $.notify().write(err); // 簡易錯誤訊息
     this.emit('end'); // 中斷程序不往下走
@@ -68,53 +68,56 @@ gulp.task('copyHTML', function() {
 // webpack
 ///////////////////////////////
 
-gulp.task("webpack-dev-server", function(callback) {
-  // Start a webpack-dev-server
-  var config = Object.create(webpackConfig);
-  // Inline mode 比較好用
-  for(var index in config.entry){
-    config.entry[index].unshift(`webpack-dev-server/client?http://localhost:${port}/`, "webpack/hot/dev-server");
-  }
-  config.devtool = "eval";
-  config.debug = true;
-  var compiler = webpack(config);
-  var server = new WebpackDevServer(compiler, {
-    hot: true,
-    stats: { colors: true },
-    publicPath: config.output.publicPath,
-    // historyApiFallback: false, // 想自定路由就不要設true
-    contentBase: path.join(__dirname + '/src'),
-    compress: true,  // use gzip compression
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 100
-    },
-    // staticOptions: {},
-    quiet: false,
-    noInfo: false,
-    // headers: { "X-Custom-Header": "yes" }
-  });
+gulp.task('webpack-dev-server', function(callback) {
+  // 偵測可用的port
+  portfinder.getPort(function (err, port) {
 
-  // 設定對應 Router
-  var router = express.Router();
-  // router ’/' => index.html
-  router.get('/home*', function (req, res, next) {
-    res.sendFile(path.join(__dirname + '/src/index.html'));
-  });
-  router.get('/page*', function (req, res, next) {
-    res.sendFile(path.join(__dirname + '/src/page.html'));
-  });
-  router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
-  server.app.use(router);
+    var config = Object.create(webpackConfig);
+    // Inline mode 比較好用
+    for(var index in config.entry){
+      config.entry[index].unshift(`webpack-dev-server/client?http://localhost:${port}/`, 'webpack/hot/dev-server');
+    }
+    config.devtool = 'eval';
+    config.debug = true;
+    var compiler = webpack(config);
+    var server = new WebpackDevServer(compiler, {
+      hot: true,
+      stats: { colors: true },
+      publicPath: config.output.publicPath,
+      // historyApiFallback: false, // 想自定路由就不要設true
+      contentBase: path.join(__dirname + '/src'),
+      compress: true,  // use gzip compression
+      watchOptions: {
+        aggregateTimeout: 300,
+        poll: 100
+      },
+      // staticOptions: {},
+      quiet: false,
+      noInfo: false,
+      // headers: { 'X-Custom-Header': 'yes' }
+    });
 
+    // 設定對應 Router
+    var router = express.Router();
+    // router ’/' => index.html
+    router.get('/home*', function (req, res, next) {
+      res.sendFile(path.join(__dirname + '/src/index.html'));
+    });
+    router.get('/page*', function (req, res, next) {
+      res.sendFile(path.join(__dirname + '/src/page.html'));
+    });
+    router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
+    server.app.use(router);
 
-  server.listen(port, "localhost", function(err) {
-    if (err) throw new $.util.PluginError("webpack-dev-server", err);
-    // Server listening
-    $.util.log("[webpack-dev-server]", `http://localhost:${port}/webpack-dev-server/`);
-    $.util.log("[webpack-dev-server]", `http://localhost:${port}/`);
-    // callback();
-    opener(`http://localhost:${port}/`);
+    // listen
+    server.listen(port, 'localhost', function(err) {
+      if (err) throw new $.util.PluginError('webpack-dev-server', err);
+      // Server listening
+      $.util.log('[webpack-dev-server]', `http://localhost:${port}/webpack-dev-server/`);
+      $.util.log('[webpack-dev-server]', `http://localhost:${port}/`);
+      callback();
+      opener(`http://localhost:${port}/`);
+    });
+
   });
-
 });

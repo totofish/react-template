@@ -11,7 +11,7 @@ let path = require('path'),
     portfinder = require('portfinder');
 let argv = require('minimist')(process.argv.slice(2), { boolean:['release'] });
 let webpackConfig = require('./webpack.config.js');
-let onError = function(err) {
+let onError = (err) => {
     console.log(err); // 詳細錯誤訊息
     $.notify().write(err); // 簡易錯誤訊息
     this.emit('end'); // 中斷程序不往下走
@@ -26,13 +26,13 @@ gulp.task('default', ['clear'], () => {
   });
 });
 
-gulp.task('clear', function(callback) {
+gulp.task('clear', (callback) => {
   del(['dist']).then(paths => {
     callback();
   });
 });
 
-gulp.task('copyImg', function() {
+gulp.task('copyImg', () => {
   return gulp.src(['src/assets/image/**/*'])
              .pipe($.plumber({
                errorHandler: onError
@@ -47,7 +47,7 @@ gulp.task('copyImg', function() {
              .pipe(gulp.dest('dist/image'));
 });
 
-gulp.task('copyScript', function() {
+gulp.task('copyScript', () => {
   return gulp.src(['src/assets/scripts/**/*'])
              .pipe($.plumber({
                errorHandler: onError
@@ -56,7 +56,7 @@ gulp.task('copyScript', function() {
              .pipe(gulp.dest('dist/scripts'));
 });
 
-gulp.task('copyHTML', function() {
+gulp.task('copyHTML', () => {
   return gulp.src(['src/*.html'])
              .pipe($.plumber({
                errorHandler: onError
@@ -68,9 +68,9 @@ gulp.task('copyHTML', function() {
 // webpack
 ///////////////////////////////
 
-gulp.task('webpack-dev-server', function(callback) {
+gulp.task('webpack-dev-server', (callback) => {
   // 偵測可用的port
-  portfinder.getPort(function (err, port) {
+  portfinder.getPort( (err, port) => {
 
     var config = Object.create(webpackConfig);
     // Inline mode 比較好用
@@ -100,17 +100,17 @@ gulp.task('webpack-dev-server', function(callback) {
     // 設定對應 Router
     var router = express.Router();
     // router ’/' => index.html
-    router.get('/home*', function (req, res, next) {
+    router.get('/home*', (req, res, next) => {
       res.sendFile(path.join(__dirname + '/src/index.html'));
     });
-    router.get('/page*', function (req, res, next) {
+    router.get('/page*', (req, res, next) => {
       res.sendFile(path.join(__dirname + '/src/page.html'));
     });
     router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
     server.app.use(router);
 
     // listen
-    server.listen(port, 'localhost', function(err) {
+    server.listen(port, 'localhost', (err) => {
       if (err) throw new $.util.PluginError('webpack-dev-server', err);
       // Server listening
       $.util.log('[webpack-dev-server]', `http://localhost:${port}/webpack-dev-server/`);

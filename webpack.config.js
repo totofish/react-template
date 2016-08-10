@@ -66,7 +66,7 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel',
         exclude: /node_modules/,
-        include: [ path.join(__dirname, 'src'), path.join(__dirname, 'lib') ],
+        include: [ path.join(__dirname, 'src') ],
         query: {
           presets: ['es2015', 'stage-0', 'react'],
           plugins: ['babel-plugin-transform-decorators-legacy'],
@@ -95,7 +95,6 @@ module.exports = {
   resolve: {
     modulesDirectories: [
       'node_modules',
-      'lib',
       'src'
     ],
     extensions: ['', '.js', '.jsx', '.css', '.scss', '.ts', '.tsx']

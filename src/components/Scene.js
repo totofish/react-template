@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import Title from 'components/Title';
-import { html } from 'react-libs';
+import React, { Component } from 'react'
+import Title from 'components/Title'
+import { html } from 'react-libs'
 
 // 如要內嵌img
-// var img = require("url!assets/image/file.png");
-// console.info(img);
+// var img = require("url!assets/image/file.png")
+// console.info(img)
 
 export default class Scene extends Component {
   constructor() {
-    super();
+    super()
   }
 
   render() {
@@ -21,11 +21,11 @@ export default class Scene extends Component {
           <figure className="scene__icon" onClick={()=>{ location.replace('/page') }}></figure>
         </html.CenterBox>
       </div>
-    );
-  };
-};
+    )
+  }
+}
 
 
 Scene.contextTypes = {
   router: React.PropTypes.object.isRequired
-};
+}

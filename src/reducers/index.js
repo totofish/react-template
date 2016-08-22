@@ -1,8 +1,10 @@
-import { combineReducers } from 'redux';
-import trace from './trace';
+import { combineReducers } from 'redux'
+import sys from './sys'
+import processing from './processing'
 
 const reducer = combineReducers({
-    trace
-});
+  sys,
+  processing
+})
 
-export default reducer;
+export default reducer

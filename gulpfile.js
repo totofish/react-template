@@ -68,19 +68,36 @@ gulp.task('copyHTML', () => {
 // webpack
 ///////////////////////////////
 
+// [設定對應 Router] -- router ’/' => index.html
+let router = express.Router();
+router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
+router.get('/home*', (req, res, next) => {
+  res.sendFile(path.join(__dirname + '/src/index.html'));
+});
+router.get('/page*', (req, res, next) => {
+  res.sendFile(path.join(__dirname + '/src/page.html'));
+});
+
+
 gulp.task('webpack-dev-server', (callback) => {
+  let Dashboard = require('webpack-dashboard');
+  let DashboardPlugin = require('webpack-dashboard/plugin');
+  let dashboard = new Dashboard();
+
   // 偵測可用的port
   portfinder.getPort( (err, port) => {
 
-    var config = Object.create(webpackConfig);
+    let config = Object.create(webpackConfig);
+    config.plugins.push(new DashboardPlugin(dashboard.setData));
     // Inline mode 比較好用
-    for(var index in config.entry){
+    for(let index in config.entry){
       config.entry[index].unshift(`webpack-dev-server/client?http://localhost:${port}/`, 'webpack/hot/dev-server');
     }
     config.devtool = 'eval';
     config.debug = true;
-    var compiler = webpack(config);
-    var server = new WebpackDevServer(compiler, {
+    let compiler = webpack(config);
+    compiler.apply(new DashboardPlugin(dashboard.setData));
+    let server = new WebpackDevServer(compiler, {
       hot: true,
       stats: { colors: true },
       publicPath: config.output.publicPath,
@@ -92,25 +109,15 @@ gulp.task('webpack-dev-server', (callback) => {
         poll: 100
       },
       // staticOptions: {},
-      quiet: false,
+      quiet: true,
       noInfo: false,
       // headers: { 'X-Custom-Header': 'yes' }
     });
 
-    // 設定對應 Router
-    var router = express.Router();
-    // router ’/' => index.html
-    router.get('/home*', (req, res, next) => {
-      res.sendFile(path.join(__dirname + '/src/index.html'));
-    });
-    router.get('/page*', (req, res, next) => {
-      res.sendFile(path.join(__dirname + '/src/page.html'));
-    });
-    router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
     server.app.use(router);
 
     // listen
-    server.listen(port, 'localhost', (err) => {
+    server.listen(port, '0.0.0.0', (err) => {
       if (err) throw new $.util.PluginError('webpack-dev-server', err);
       // Server listening
       $.util.log('[webpack-dev-server]', `http://localhost:${port}/webpack-dev-server/`);

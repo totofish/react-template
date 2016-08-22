@@ -10,13 +10,15 @@ process.env.NODE_ENV    = argv.release ? 'production' : 'development';
 module.exports = {
   entry: {
     'indexApp': ['./src/index.js'],
-    'pageApp' : ['./src/page.js']
+    'pageApp' : ['./src/page.js'],
+    'commons': ['react', 'redux-saga', 'react-router']
   },
   output: {
     // libraryTarget: "umd",
     path: path.join(__dirname, 'dist/scripts'),
     filename: '[name].js',
-    publicPath: '/scripts',
+    publicPath: '/scripts/',
+    chunkFilename: '[id].chunk.js'
     // chunkFilename: "[name].[hash].js"
   },
   plugins: [
@@ -65,8 +67,8 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        exclude: /node_modules/,
-        include: [ path.join(__dirname, 'src') ],
+        exclude: /(node_modules|bower_components)/,
+        include: [ path.join(__dirname, 'src'), path.join(__dirname, 'lib') ],
         query: {
           presets: ['es2015', 'stage-0', 'react'],
           plugins: ['babel-plugin-transform-decorators-legacy'],
@@ -95,6 +97,7 @@ module.exports = {
   resolve: {
     modulesDirectories: [
       'node_modules',
+      'lib',
       'src'
     ],
     extensions: ['', '.js', '.jsx', '.css', '.scss', '.ts', '.tsx']

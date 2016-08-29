@@ -3,7 +3,7 @@ import Title from 'components/Title'
 import { html } from 'react-libs'
 
 // 如要內嵌img
-// var img = require("url!assets/image/file.png")
+// var img = require("url!assets/images/file.png")
 // console.info(img)
 
 export default class Scene extends Component {

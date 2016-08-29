@@ -16,7 +16,7 @@ let onError = (err) => {
     $.notify().write(err); // 簡易錯誤訊息
     this.emit('end'); // 中斷程序不往下走
 }
-
+//
 ///////////////////////////////
 // Default task
 ///////////////////////////////
@@ -71,7 +71,7 @@ gulp.task('copyHTML', () => {
 // [設定對應 Router] -- router ’/' => index.html
 let router = express.Router();
 router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
-router.get('/home*', (req, res, next) => {
+router.get('/base*', (req, res, next) => {
   res.sendFile(path.join(__dirname + '/src/index.html'));
 });
 router.get('/page*', (req, res, next) => {
@@ -96,7 +96,6 @@ gulp.task('webpack-dev-server', (callback) => {
     config.devtool = 'eval';
     config.debug = true;
     let compiler = webpack(config);
-    compiler.apply(new DashboardPlugin(dashboard.setData));
     let server = new WebpackDevServer(compiler, {
       hot: true,
       stats: { colors: true },

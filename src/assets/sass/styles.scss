@@ -33,7 +33,7 @@ html, body {
     height: 100vh;
     margin: 0;
     padding: 0;
-    background-image: url(/image/image-file.png); /* 外部載入 */
+    background-image: url(/images/image-file.png); /* 外部載入 */
     background-size: cover;
     background-position: center center;
     filter:blur(30px) brightness(110%) sepia(65%);
@@ -53,7 +53,7 @@ html, body {
     height: 100px;
     border-radius: 100%;
     background-size: cover;
-    background-image: url(../image/file.png); /* 內嵌 */
+    background-image: url(../images/file.png); /* 內嵌 */
     margin: auto;
     border: solid 30px rgba(0, 97, 189, 0.34);
     animation: bg-flash 2s infinite;

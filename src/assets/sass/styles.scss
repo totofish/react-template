@@ -14,17 +14,29 @@ html, body {
     background-color: rgba(57, 86, 105, 0.38);
     line-height: 50px;
     text-align: center;
-    margin-bottom: 50px;
     font-weight: 400;
     color: rgba(255, 255, 255, 0.8);
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     z-index: 10;
+  }
 
+  &__msg {
+    font-size: 1rem;
+    line-height: 30px;
   }
 
   &__button {
     font-size: 0.8rem;
-    margin-left: 5px;
+    margin-left: 10px;
+    margin-top: 10px;
+    color: rgba(0,0,0,1);
+    vertical-align: top;
+    padding: 5px 15px;
+    border-radius: 15px;
+    border: none;
+    background-color: beige;
+    outline: none;
+    cursor: pointer;
   }
 
   &__bg {
@@ -73,6 +85,41 @@ html, body {
 
     &--black {
       background-color: rgba(150, 137, 94, 0.3);
+    }
+  }
+
+  .crumbs {
+    color: rgba(255,255,255,0.6);
+
+    ol {
+      padding: 0;
+      margin: 0;
+    }
+
+    i {
+      vertical-align: middle;
+    }
+
+    &__item {
+      display: inline-block;
+      font-size: 14px;
+      line-height: 14px;
+    }
+
+    &__link {
+      cursor: pointer;
+      display: inline-block;
+
+      &--strong {
+        font-weight: 500;
+        color: rgba(255,255,255,1);
+      }
+    }
+
+    .crumbs__arrow {
+      font-size: 14px;
+      line-height: 14px;
+      margin: 0 3px;
     }
   }
 

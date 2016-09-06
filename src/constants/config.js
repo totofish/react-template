@@ -8,7 +8,6 @@ if (process.env.NODE_ENV === 'development') {
   config.IP_API = 'https://api.ipify.org'
 }
 
+
 export default config;
-
-
 export const FetchException = 'Failed Fetch'

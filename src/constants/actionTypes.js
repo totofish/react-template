@@ -1,5 +1,8 @@
 export const TRACE = 'TRACE'
 
+// Route Data
+export const ROUTE_DATA = 'ROUTE_DATA'
+
 // redux-saga Action
 export const DELAY       = 'DELAY'
 

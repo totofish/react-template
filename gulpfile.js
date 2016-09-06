@@ -9,7 +9,6 @@ let path = require('path'),
     opener = require('opener'),
     express = require('express'),
     portfinder = require('portfinder');
-let argv = require('minimist')(process.argv.slice(2), { boolean:['release'] });
 let webpackConfig = require('./webpack.config.js');
 let onError = (err) => {
     console.log(err); // 詳細錯誤訊息
@@ -33,18 +32,18 @@ gulp.task('clear', (callback) => {
 });
 
 gulp.task('copyImg', () => {
-  return gulp.src(['src/assets/image/**/*'])
+  return gulp.src(['src/assets/images/**/*'])
              .pipe($.plumber({
                errorHandler: onError
              }))
-             .pipe(gulp.dest('dist/image')) // imagemin 最佳化圖檔有些圖可能會複製不過去,所以先 clone 一份到 image 防止漏圖
+             .pipe(gulp.dest('dist/images')) // imagemin 最佳化圖檔有些圖可能會複製不過去,所以先 clone 一份到 image 防止漏圖
              .pipe($.imagemin({
                optimizationLevel: 3,
                progressive: true,
                interlaced: true,
                multipass: true
              }))
-             .pipe(gulp.dest('dist/image'));
+             .pipe(gulp.dest('dist/images'));
 });
 
 gulp.task('copyScript', () => {
@@ -67,18 +66,6 @@ gulp.task('copyHTML', () => {
 ///////////////////////////////
 // webpack
 ///////////////////////////////
-
-// [設定對應 Router] -- router ’/' => index.html
-let router = express.Router();
-router.use(express.static(__dirname + '/src/assets')); // 靜態檔案root目錄
-router.get('/base*', (req, res, next) => {
-  res.sendFile(path.join(__dirname + '/src/index.html'));
-});
-router.get('/page*', (req, res, next) => {
-  res.sendFile(path.join(__dirname + '/src/page.html'));
-});
-
-
 gulp.task('webpack-dev-server', (callback) => {
   let Dashboard = require('webpack-dashboard');
   let DashboardPlugin = require('webpack-dashboard/plugin');
@@ -113,7 +100,8 @@ gulp.task('webpack-dev-server', (callback) => {
       // headers: { 'X-Custom-Header': 'yes' }
     });
 
-    server.app.use(router);
+    // [設定對應 Router] -- router ’/' => index.html
+    server.app.use(require('./server.js'));
 
     // listen
     server.listen(port, '0.0.0.0', (err) => {

@@ -1,7 +1,7 @@
 import * as types from 'constants/actionTypes'
 import { delay, takeEvery } from 'redux-saga'
 import { call, put, fork, take, cancel } from 'redux-saga/effects'
-import encodeQueryData from 'utility/encodeQueryData'
+import encodeQueryData, { getUrlQuery } from 'utility/encodeQueryData'
 import { sysMessage } from 'actions/sys'
 import { FetchException } from 'constants/config'
 
@@ -21,7 +21,7 @@ function api({ fullUrl, contentType, Authorization, method, body }) {
   contentType = contentType.toLocaleUpperCase()
   if(method === 'GET') {
     let urls = fullUrl.split('?')
-    fullUrl = `${urls[0]}?${urls[1] || ''}${urls.length === 1 ? '' : '&'}${encodeQueryData(body)}`
+    fullUrl = `${urls[0]}?${encodeQueryData({...getUrlQuery(urls[1] || ''), ...body})}`
   }
   let headers = { 'Content-Type': contentType === 'JSON' ? 'application/json' : 'application/x-www-form-urlencoded;charset=utf-8' }
   Authorization && (headers.Authorization = Authorization)

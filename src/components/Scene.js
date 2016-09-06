@@ -13,13 +13,18 @@ export default class Scene extends Component {
 
   render() {
     return (
-      <div className="scene" style={{width:'100%', height:'100%'}}>
-        <figure className="scene__bg"></figure>
-        <Title text={this.props.location.pathname} jump={this.props.route.jump} router={this.context.router} />
-        <html.CenterBox>
-          <div className="scene__circle"></div>
-          <figure className="scene__icon" onClick={()=>{ location.replace('/page') }}></figure>
-        </html.CenterBox>
+      <div>
+        {
+          this.props.children ||
+          <div className="scene" style={{width:'100%', height:'100%'}}>
+            <figure className="scene__bg"></figure>
+            <Title jump={this.props.route.jumpTo} router={this.context.router} />
+            <html.CenterBox>
+              <div className="scene__circle"></div>
+              <figure className="scene__icon" onClick={()=>{ location.replace('/page') }}></figure>
+            </html.CenterBox>
+          </div>
+        }
       </div>
     )
   }

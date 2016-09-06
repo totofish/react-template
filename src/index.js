@@ -3,8 +3,9 @@ import React from 'react'
 import { render } from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
-import { browserHistory, useRouterHistory, Redirect, Router, Route, IndexRoute, applyRouterMiddleware } from 'react-router'
+import { browserHistory, useRouterHistory, Redirect, Router, Route, IndexRoute, IndexRedirect, applyRouterMiddleware } from 'react-router'
 import { createHistory } from 'history'
+import * as types from 'constants/actionTypes'
 import createLogger from 'redux-logger'
 import reducer from 'reducers'
 import { useScroll } from 'react-router-scroll'
@@ -41,14 +42,18 @@ function PageNotFound(nextState, cb) {
   })
 }
 
+const routes = require('./routes/indexRoute')
 const history = useRouterHistory(createHistory)({ basename: '/base' })
+store.dispatch({
+  type: types.ROUTE_DATA,
+  routes
+})
 render((
   <Provider store={store}>
     <Router history={history} render={applyRouterMiddleware(useScroll())}>
-      <Route path="/" getComponent={Stage}>
-        <IndexRoute getComponent={Scene} jump="home" />
-        <Route path="home" getComponent={Scene} jump="home/path" />
-        <Route path="home/:path" getComponent={Scene} jump="/" />
+      <Route path="/" getComponent={Stage} childRoutes={routes}>
+        {/* <IndexRedirect to="/home" /> */}
+        <IndexRoute getComponent={Scene} jumpTo="home" />
       </Route>
       <Route path="*" getComponent={PageNotFound} />
     </Router>

@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import * as sysAction from 'actions/sys'
 import * as processingAction from 'actions/processing'
 import * as getIPAction from 'actions/getIP'
-import multiAction from 'actions/multiAction'
+import { sysMessage } from 'actions/sys'
+import * as multiAction from 'actions/multiAction'
 import { BaseComponent } from 'react-libs'
 import config from 'constants/config'
 import Crumbs from './Crumbs'
@@ -14,9 +15,6 @@ export class Title extends BaseComponent {
     super()
     this.click = this.click.bind(this)
     this.sendMultiAction = this.sendMultiAction.bind(this)
-    this.state = {
-      msg: ''
-    }
   }
 
   componentDidMount() {
@@ -32,35 +30,39 @@ export class Title extends BaseComponent {
   }
 
   sendMultiAction(){
+    this.props.getIP()           // Get IP Service
+    this.props.apiActionCancel() // 馬上取消Send API Action，因此store將不會取的IP回傳
+
+    this.props.multiActionCancel() // 取消前一次的multiAction
+    // 發送多筆連續Action,Callback Function或Delay Action
     this.props.multiAction({
       // id: 'stage-multi',
       actions: [
-        () => { console.info('循環開始'); this.setState({ msg:'循環開始' }) },
+        () => { console.info('循環開始'); this.props.sysMessage({ message:'循環開始' }) },
         processingAction.processingStart(),
 
         sysAction.delay(1000),
         sysAction.trace('trace 1'),
-        () => { console.info('trace 1'); this.setState({ msg:'trace 1' }) },
+        () => { console.info('trace 1'); this.props.sysMessage({ message:'trace 1' }) },
 
         sysAction.delay(1000),
         sysAction.trace('trace 2'),
-        () => { console.info('trace 2'); this.setState({ msg:'trace 2' }) },
+        () => { console.info('trace 2'); this.props.sysMessage({ message:'trace 2' }) },
 
         sysAction.delay(1000),
         sysAction.trace('trace 3'),
-        () => { console.info('trace 3'); this.setState({ msg:'trace 3' }) },
+        () => { console.info('trace 3'); this.props.sysMessage({ message:'trace 3' }) },
 
         sysAction.delay(1000),
         sysAction.trace('trace 4'),
-        () => { console.info('trace 4'); this.setState({ msg:'trace 4' }) },
+        () => { console.info('trace 4'); this.props.sysMessage({ message:'trace 4' }) },
 
         sysAction.delay(1000),
         processingAction.processingEnd(),
-        () => { console.info('循環結束'); this.setState({ msg:'循環結束' }) },
+        () => { console.info('循環結束'); this.props.sysMessage({ message:'循環結束' }) },
 
         getIPAction.getIP({ callback: (response) => {
           console.info('IP:', response.ip)
-          this.setState({ msg:`IP: ${response.ip}` })
         }})
       ]
     })
@@ -77,7 +79,7 @@ export class Title extends BaseComponent {
         { jump ? <button onClick={this.click} className="scene__button">Next Page</button> : null }
 
         <button onClick={this.sendMultiAction} className="scene__button">MultiAction API</button>
-        <div className="scene__msg">{ this.state.msg }</div>
+        <div className="scene__msg">{ this.props.info.message }</div>
       </div>
     )
   }
@@ -96,9 +98,9 @@ Title.defaultProps = {
 
 export default connect(
     state => ({
-
+      info: state.sys.info
     }),
     dispatch => bindActionCreators({
-      ...sysAction, ...processingAction, multiAction
+      ...sysAction, ...processingAction, ...getIPAction, ...multiAction, sysMessage
     }, dispatch)
 )(Title)

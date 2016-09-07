@@ -1,30 +1,30 @@
-import 'babel-polyfill';
-import React from 'react';
-import { render } from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
-import { Provider } from 'react-redux';
-import createLogger from 'redux-logger';
-import reducer from 'reducers';
+import 'babel-polyfill'
+import React from 'react'
+import { render } from 'react-dom'
+import { createStore, applyMiddleware, compose } from 'redux'
+import { Provider } from 'react-redux'
+import createLogger from 'redux-logger'
+import reducer from 'reducers'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/rootSaga'
-import domready from 'domready';
+import domready from 'domready'
 
-import 'assets/sass/styles';
-import Title from 'components/Title';
-import { html } from 'react-libs';
-import 'react-libs/dist/react-libs.css';
+import 'assets/sass/styles'
+import Title from 'components/Title'
+import { html } from 'react-libs'
+import 'react-libs/dist/react-libs.css'
 
 const sagaMiddleware = createSagaMiddleware()
-const middlewares = [sagaMiddleware];
+const middlewares = [sagaMiddleware]
 if (process.env.NODE_ENV === 'development') {
-  middlewares.push(createLogger());
+  middlewares.push(createLogger())
 }
 
-const store = compose(applyMiddleware(...middlewares))(createStore)(reducer);
+const store = compose(applyMiddleware(...middlewares))(createStore)(reducer)
 sagaMiddleware.run(rootSaga)
 
 
-const { CenterBox } = html;
+const { CenterBox } = html
 
 domready(() => {
   render((
@@ -38,5 +38,5 @@ domready(() => {
         </CenterBox>
       </div>
     </Provider>
-  ), document.getElementById('root'));
-});
+  ), document.getElementById('root'))
+})

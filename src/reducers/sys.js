@@ -2,7 +2,7 @@ import * as types from 'constants/actionTypes';
 
 
 let defaultState = {
-  info : null
+  info : {}
 }
 
 export default function sys(state = defaultState, action) {

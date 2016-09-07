@@ -9,7 +9,7 @@ import config from 'constants/config'
  * @param  callback  回呼function
  * @return Get IP Action
  */
-export const getIP = ({ callback=null }) => {
+export const getIP = ({ callback=null }={}) => {
   return {
     type: types.API_ASYNC,
     option: {
@@ -28,4 +28,14 @@ const ipResponse = (response) => {
     type   : 'IP',
     message: response.ip
   })
+}
+
+/**
+ * API Action Cancel
+ * @return Object 中斷等待中的API Action
+ */
+export const apiActionCancel = () => {
+  return {
+    type: types.API_CANCEL
+  }
 }

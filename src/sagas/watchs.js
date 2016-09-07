@@ -32,7 +32,7 @@ function api({ fullUrl, contentType, Authorization, method, body }) {
   })
 }
 
-function* sendAPI(action){
+function* sendAPI(action) {
   try {
     // 正常程序
     if(action.processingStart) yield put(action.processingStart)
@@ -59,9 +59,7 @@ function* sendAPI(action){
   }
 }
 
-
-
-/////////////// Single
+/////////////// Single API
 export function* apiFlow(action) {
   const task = yield fork(sendAPI, action)
   yield take(types.API_CANCEL)
@@ -69,7 +67,7 @@ export function* apiFlow(action) {
 }
 
 /////////////// Multi Step
-export function* apiMultiFlow(action) {
+function* multiFlow(action) {
   for(let i = 0, j = action.actions.length; i < j; i++) {
     let actionStep = action.actions[i]
     if(typeof actionStep === 'object') {
@@ -78,13 +76,19 @@ export function* apiMultiFlow(action) {
       } else if(actionStep.type === types.DELAY) {        // 暫停
         yield call(delay, actionStep.millisecond)
       } else {
-        yield put(actionStep)                      // 一般 action 呼叫
+        yield put(actionStep)                             // 一般 action 呼叫
       }
     } else if(typeof actionStep === 'function') {
       actionStep.call()
     }
   }
   // yield put({ type: types.ACTION_STEP_END, id:action.id }) // 多筆呼叫結束
+}
+
+export function* MultiActionFlow(action) {
+  const task = yield fork(multiFlow, action)
+  yield take(types.ACTION_STEP_CANCEL)
+  yield cancel(task)
 }
 
 
@@ -99,5 +103,5 @@ export function* watchApiAsync() {
 // 監控逐步多筆Action事件
 /////////////////////////////////////
 export function* watchStepActionAsync() {
-  yield* takeEvery(types.ACTION_STEP_ASYNC, apiMultiFlow)
+  yield* takeEvery(types.ACTION_STEP_ASYNC, MultiActionFlow)
 }

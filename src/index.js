@@ -11,6 +11,7 @@ import reducer from 'reducers'
 import { useScroll } from 'react-router-scroll'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/rootSaga'
+import domready from 'domready'
 import 'assets/sass/styles.scss'
 import 'react-libs/dist/react-libs.css'
 
@@ -48,14 +49,17 @@ store.dispatch({
   type: types.ROUTE_DATA,
   routes
 })
-render((
-  <Provider store={store}>
-    <Router history={history} render={applyRouterMiddleware(useScroll())}>
-      <Route path="/" getComponent={Stage} childRoutes={routes}>
-        {/* <IndexRedirect to="/home" /> */}
-        <IndexRoute getComponent={Scene} jumpTo="home" />
-      </Route>
-      <Route path="*" getComponent={PageNotFound} />
-    </Router>
-  </Provider>
-), document.getElementById('root'))
+
+domready(() => {
+  render((
+    <Provider store={store}>
+      <Router history={history} render={applyRouterMiddleware(useScroll())}>
+        <Route path="/" getComponent={Stage} childRoutes={routes}>
+          {/* <IndexRedirect to="/home" /> */}
+          <IndexRoute getComponent={Scene} jumpTo="home" />
+        </Route>
+        <Route path="*" getComponent={PageNotFound} />
+      </Router>
+    </Provider>
+  ), document.getElementById('root'))
+})

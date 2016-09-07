@@ -6,7 +6,7 @@ import * as types from 'constants/actionTypes'
  * @param  actions 一個array,內容可以接受function || action
  * @return         Multi Action
  */
-const multiAction = ({ id, actions }) => {
+export const multiAction = ({ id, actions }) => {
   return {
     type: types.ACTION_STEP_ASYNC,
     id,
@@ -14,4 +14,13 @@ const multiAction = ({ id, actions }) => {
   }
 }
 
-export default multiAction;
+
+/**
+ * API Action Cancel
+ * @return Object 中斷等待中的API Action
+ */
+export const multiActionCancel = () => {
+  return {
+    type: types.ACTION_STEP_CANCEL
+  }
+}

@@ -13,7 +13,8 @@ export const API_SUCCESS = 'API_SUCCESS'
 export const API_ERROR   = 'API_ERROR'
 
 // Multi Action
-export const ACTION_STEP_ASYNC = 'ACTION_STEP_ASYNC'
+export const ACTION_STEP_ASYNC  = 'ACTION_STEP_ASYNC'
+export const ACTION_STEP_CANCEL = 'ACTION_STEP_CANCEL'
 
 // System Message
 export const SYS_MESSAGE = 'SYS_MESSAGE'

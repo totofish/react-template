@@ -41,9 +41,12 @@ function* sendAPI(action) {
     //   type: types.API_SUCCESS,
     //   response
     // })
-    if(action.success) yield put(action.success(response))
-    if(action.processingEnd) yield put(action.processingEnd)
-    if(action.callback) action.callback.call(null, response)
+    if(action.success) {
+      let next = action.success(response)
+      if(next) yield put(next)
+    }
+    if(typeof action.processingEnd === 'object') yield put(action.processingEnd)
+    if(typeof action.callback === 'function') action.callback.call(null, response)
   } catch (error) {
     // 失敗程序
     // yield put({
@@ -54,8 +57,8 @@ function* sendAPI(action) {
       type   : types.FAILED_FETCH,
       message: FetchException
     }))
-    if(action.processingEnd) yield put(action.processingEnd)
-    if(action.callback) action.callback.call()
+    if(typeof action.processingEnd === 'object') yield put(action.processingEnd)
+    if(typeof action.callback === 'function') action.callback.call()
   }
 }
 

@@ -11,7 +11,7 @@ sysMessage({
 export const sysMessage = (message=null) => {
   return {
     type: types.SYS_MESSAGE,
-    message
+    info: message
   }
 }
 

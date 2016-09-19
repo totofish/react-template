@@ -8,7 +8,7 @@ let defaultState = {
 export default function sys(state = defaultState, action) {
   switch (action.type) {
     case types.SYS_MESSAGE:
-      return { ...state, info: action.message }
+      return { ...state, info: action.info }
 
     case types.SYS_MESSAGE_CLEAR:
       var stateClone = { ...state };

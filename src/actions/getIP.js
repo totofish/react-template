@@ -19,7 +19,9 @@ export const getIP = ({ callback=null }={}) => {
       body         : { format: 'json' }
     },
     callback,
-    success: ipResponse
+    processingStart: processingStart('ip'),
+    processingEnd  : processingEnd('ip'),
+    success        : ipResponse
   }
 }
 
@@ -28,14 +30,4 @@ const ipResponse = (response) => {
     type   : 'IP',
     message: response.ip
   })
-}
-
-/**
- * API Action Cancel
- * @return Object 中斷等待中的API Action
- */
-export const apiActionCancel = () => {
-  return {
-    type: types.API_CANCEL
-  }
 }

@@ -4,8 +4,8 @@ import { connect } from 'react-redux'
 import * as sysAction from 'actions/sys'
 import * as processingAction from 'actions/processing'
 import * as getIPAction from 'actions/getIP'
-import { sysMessage } from 'actions/sys'
 import * as multiAction from 'actions/multiAction'
+import * as getUTCAction from 'actions/getUTC'
 import { BaseComponent } from 'react-libs'
 import config from 'constants/config'
 import Crumbs from './Crumbs'
@@ -15,14 +15,6 @@ export class Title extends BaseComponent {
     super()
     this.click = this.click.bind(this)
     this.sendMultiAction = this.sendMultiAction.bind(this)
-  }
-
-  componentDidMount() {
-    this.props.trace(this.props.text)
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    this.props.trace(this.props.text)
   }
 
   click() {
@@ -63,6 +55,10 @@ export class Title extends BaseComponent {
 
         getIPAction.getIP({ callback: (response) => {
           console.info('IP:', response.ip)
+        }}),
+
+        getUTCAction.getUTC({ callback: (response) => {
+          console.info('UTC+1:', response.dateString)
         }})
       ]
     })
@@ -101,6 +97,6 @@ export default connect(
       info: state.sys.info
     }),
     dispatch => bindActionCreators({
-      ...sysAction, ...processingAction, ...getIPAction, ...multiAction, sysMessage
+      ...sysAction, ...processingAction, ...getIPAction, ...multiAction, ...getUTCAction
     }, dispatch)
 )(Title)

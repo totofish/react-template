@@ -66,6 +66,7 @@
     "es6-promise": "3.2.1",
     "es6-shim": "0.35.1",
     "fetch-polyfill": "0.8.2",
+    "jsonp": "0.2.0",
     "lodash": "4.15.0",
     "react": "15.3.0",
     "react-addons-shallow-compare": "15.3.0",

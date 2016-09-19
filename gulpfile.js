@@ -69,13 +69,11 @@ gulp.task('copyHTML', () => {
 gulp.task('webpack-dev-server', (callback) => {
   let Dashboard = require('webpack-dashboard');
   let DashboardPlugin = require('webpack-dashboard/plugin');
-  let dashboard = new Dashboard();
 
   // 偵測可用的port
   portfinder.getPort( (err, port) => {
-
     let config = Object.create(webpackConfig);
-    config.plugins.push(new DashboardPlugin(dashboard.setData));
+    config.plugins.push(new DashboardPlugin(new Dashboard().setData));
     // Inline mode 比較好用
     for(let index in config.entry){
       config.entry[index].unshift(`webpack-dev-server/client?http://localhost:${port}/`, 'webpack/hot/dev-server');
@@ -87,21 +85,37 @@ gulp.task('webpack-dev-server', (callback) => {
       hot: true,
       stats: { colors: true },
       publicPath: config.output.publicPath,
-      // historyApiFallback: false, // 想自定路由就不要設true
+      setup: function(app) {
+        // [設定對應 Router]
+        app.use(require('./server.js'));
+      },
+      // historyApiFallback: {
+      //   // [設定對應 Router],方法3
+      //   rewrites: [
+      //     { from: /^\/$/, to: '/index.html' },
+      //     { from: /^\/base/, to: '/index.html' },
+      //     { from: /^\/page/, to: '/page.html' },
+      //     { from: /^\/./,
+      //       to: function(context) {
+      //         return '/assets' + context.parsedUrl.pathname;
+      //       }
+      //     }
+      //   ]
+      // },
+      // staticOptions: {},
       contentBase: path.join(__dirname + '/src'),
       compress: true,  // use gzip compression
       watchOptions: {
         aggregateTimeout: 300,
         poll: 100
       },
-      // staticOptions: {},
       quiet: true,
       noInfo: false,
       // headers: { 'X-Custom-Header': 'yes' }
     });
 
-    // [設定對應 Router] -- router ’/' => index.html
-    server.app.use(require('./server.js'));
+    // [設定對應 Router],方法2
+    // server.app.use(require('./server.js'));
 
     // listen
     server.listen(port, '0.0.0.0', (err) => {

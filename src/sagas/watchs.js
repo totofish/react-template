@@ -4,6 +4,7 @@ import { call, put, fork, take, cancel } from 'redux-saga/effects'
 import encodeQueryData, { getUrlQuery } from 'utility/encodeQueryData'
 import { sysMessage } from 'actions/sys'
 import { FetchException } from 'constants/config'
+import jsonp from 'jsonp'
 
 function fetchAPI(url, options) {
   return fetch(url, options)
@@ -16,20 +17,30 @@ function fetchAPI(url, options) {
           )
 }
 
-function api({ fullUrl, contentType, Authorization, method, body }) {
+function api({ fullUrl, contentType, Authorization, method='GET', body }) {
   method = method.toLocaleUpperCase()
   contentType = contentType.toLocaleUpperCase()
+  if(contentType === 'JSONP') method = 'GET'
   if(method === 'GET') {
     let urls = fullUrl.split('?')
     fullUrl = `${urls[0]}?${encodeQueryData({...getUrlQuery(urls[1] || ''), ...body})}`
   }
-  let headers = { 'Content-Type': contentType === 'JSON' ? 'application/json' : 'application/x-www-form-urlencoded;charset=utf-8' }
-  Authorization && (headers.Authorization = Authorization)
-  return fetchAPI(fullUrl, {
-    method : method,
-    headers: headers,
-    body   : method === 'GET' ? null : contentType === 'JSON' ? JSON.stringify(body) : encodeQueryData(body)
-  })
+  if(contentType === 'JSONP') {
+    return new Promise(function(resolve, reject) {
+      jsonp(fullUrl, {}, (err, data) => {
+        if(err) reject(err)
+        else resolve(data)
+      })
+    })
+  } else {
+    let headers = { 'Content-Type': contentType === 'JSON' ? 'application/json' : 'application/x-www-form-urlencoded;charset=utf-8' }
+    Authorization && (headers.Authorization = Authorization)
+    return fetchAPI(fullUrl, {
+      method : method,
+      headers: headers,
+      body   : method === 'GET' ? null : contentType === 'JSON' ? JSON.stringify(body) : encodeQueryData(body)
+    })
+  }
 }
 
 function* sendAPI(action) {

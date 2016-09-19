@@ -24,3 +24,14 @@ export const multiActionCancel = () => {
     type: types.ACTION_STEP_CANCEL
   }
 }
+
+
+/**
+ * API Action Cancel
+ * @return Object 中斷等待中的API Action
+ */
+export const apiActionCancel = () => {
+  return {
+    type: types.API_CANCEL
+  }
+}

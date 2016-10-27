@@ -7,10 +7,11 @@
 ##Usage
 
 ```shell
-$ npm install
-$ npm run dev          // development開發測試
-$ npm run release      // production發佈
-$ npm run install      // install self git module
+$ yarn install
+$ yarn run cp           // copy paste其他polyfill到scripts資料夾,windows不支援這指令
+$ yarn run dev          // development開發測試
+$ yarn run release      // production發佈
+$ yarn run install      // install self git module
 ```
 
 ##架構特點

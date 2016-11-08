@@ -107,7 +107,8 @@ gulp.task('webpack-dev-server', (callback) => {
       compress: true,  // use gzip compression
       watchOptions: {
         aggregateTimeout: 300,
-        poll: 100
+        ignored: /node_modules/,
+        poll: 1000
       },
       quiet: true,
       noInfo: false,

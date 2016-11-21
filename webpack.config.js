@@ -1,16 +1,17 @@
-'use strict';
+'use strict'
 
-const path              = require('path');
-const autoprefixer      = require('autoprefixer');
-const webpack           = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const argv              = require('minimist')(process.argv.slice(2), { boolean:['release'] });
-process.env.NODE_ENV    = argv.release ? 'production' : 'development';
+const path              = require('path')
+const autoprefixer      = require('autoprefixer')
+const webpack           = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const argv              = require('minimist')(process.argv.slice(2), { boolean:['release'] })
+const fs                = require('fs')
+process.env.NODE_ENV    = argv.release ? 'production' : 'development'
 
 module.exports = {
   entry: {
-    'indexApp': ['./src/index.js'],
-    'pageApp' : ['./src/page.js'],
+    // 'baseApp': ['./src/base.js'],
+    // 'pageApp' : ['./src/page.js'],
     'commons': ['react', 'redux-saga', 'react-router']
   },
   output: {
@@ -33,8 +34,8 @@ module.exports = {
     })
     // new HtmlWebpackPlugin({
     //     release: argv.release,
-    //     chunks: ['indexApp'], // 指定對應到的entry為app
-    //     filename: 'index.html',
+    //     chunks: ['baseApp'], // 指定對應到的entry為app
+    //     filename: 'base.html',
     //     template: './src/template.html',
     //     inject: 'body',
     //     hash: true,
@@ -49,8 +50,8 @@ module.exports = {
     // new HtmlWebpackPlugin({
     //     release: argv.release,
     //     chunks: ['pageApp'], // 指定對應到的entry為app
-    //     filename: 'about.html',
-    //     template: './src/index.html',
+    //     filename: 'page.html',
+    //     template: './src/template.html',
     //     inject: 'body',
     //     hash: true,
     //     minify: {
@@ -103,7 +104,17 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.css', '.scss', '.ts', '.tsx']
   },
   postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
-};
+}
+
+// 指定./src/*.js為Bundle Entry
+fs.readdirSync(__dirname + '/src').forEach(function (file) {
+  if (fs.statSync(path.join(__dirname + '/src', file)).isFile()) {
+    if(/.js$/.test(file)) {
+      let fileName = file.replace(/.js$/, '')
+      module.exports.entry[`${fileName}App`] = [`./src/${fileName}.js`]
+    }
+  }
+})
 
 
 if(argv.release) {

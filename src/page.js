@@ -34,7 +34,7 @@ domready(() => {
         <Title text="Page" />
         <CenterBox>
           <div className="scene__circle scene__circle--black"></div>
-          <figure className="scene__icon" onClick={()=>{ location.replace('/') }}></figure>
+          <figure className="scene__icon" onClick={()=>{ location.replace('/base') }}></figure>
         </CenterBox>
       </div>
     </Provider>

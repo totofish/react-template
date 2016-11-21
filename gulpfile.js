@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 let path = require('path'),
     gulp = require('gulp'),
@@ -8,12 +8,12 @@ let path = require('path'),
     WebpackDevServer = require('webpack-dev-server'),
     opener = require('opener'),
     express = require('express'),
-    portfinder = require('portfinder');
-let webpackConfig = require('./webpack.config.js');
+    portfinder = require('portfinder')
+let webpackConfig = require('./webpack.config.js')
 let onError = (err) => {
-    console.log(err); // 詳細錯誤訊息
-    $.notify().write(err); // 簡易錯誤訊息
-    this.emit('end'); // 中斷程序不往下走
+    console.log(err) // 詳細錯誤訊息
+    $.notify().write(err) // 簡易錯誤訊息
+    this.emit('end') // 中斷程序不往下走
 }
 //
 ///////////////////////////////
@@ -21,15 +21,15 @@ let onError = (err) => {
 ///////////////////////////////
 gulp.task('default', ['clear'], () => {
   gulp.start(['copyImg', 'copyScript', 'copyHTML'], () => {
-    console.info('webpack build...');
-  });
-});
+    console.info('webpack build...')
+  })
+})
 
 gulp.task('clear', (callback) => {
   del(['dist']).then(paths => {
-    callback();
-  });
-});
+    callback()
+  })
+})
 
 gulp.task('copyImg', () => {
   return gulp.src(['src/assets/images/**/*'])
@@ -43,8 +43,8 @@ gulp.task('copyImg', () => {
                interlaced: true,
                multipass: true
              }))
-             .pipe(gulp.dest('dist/images'));
-});
+             .pipe(gulp.dest('dist/images'))
+})
 
 gulp.task('copyScript', () => {
   return gulp.src(['src/assets/scripts/**/*'])
@@ -52,42 +52,55 @@ gulp.task('copyScript', () => {
                errorHandler: onError
              }))
              .pipe($.uglify())
-             .pipe(gulp.dest('dist/scripts'));
-});
+             .pipe(gulp.dest('dist/scripts'))
+})
 
 gulp.task('copyHTML', () => {
   return gulp.src(['src/*.html'])
              .pipe($.plumber({
                errorHandler: onError
              }))
-             .pipe(gulp.dest('dist'));
-});
+             .pipe(gulp.dest('dist'))
+})
+
+// 設定Appliction Cache manifest文件
+gulp.task('manifest', function(){
+  gulp.src(['dist/**/*'], { base: 'dist/' })
+    .pipe($.manifest({
+      hash: true,
+      preferOnline: true,
+      network: ['*'],
+      filename: 'app.manifest',
+      exclude: 'app.manifest'
+     }))
+    .pipe(gulp.dest('dist'))
+})
 
 ///////////////////////////////
 // webpack
 ///////////////////////////////
 gulp.task('webpack-dev-server', (callback) => {
-  let Dashboard = require('webpack-dashboard');
-  let DashboardPlugin = require('webpack-dashboard/plugin');
+  let Dashboard = require('webpack-dashboard')
+  let DashboardPlugin = require('webpack-dashboard/plugin')
 
   // 偵測可用的port
   portfinder.getPort( (err, port) => {
-    let config = Object.create(webpackConfig);
-    config.plugins.push(new DashboardPlugin(new Dashboard().setData));
+    let config = Object.create(webpackConfig)
+    // config.plugins.push(new DashboardPlugin(new Dashboard().setData))
     // Inline mode 比較好用
     for(let index in config.entry){
-      config.entry[index].unshift(`webpack-dev-server/client?http://localhost:${port}/`, 'webpack/hot/dev-server');
+      config.entry[index].unshift(`webpack-dev-server/client?http://localhost:${port}/`, 'webpack/hot/dev-server')
     }
-    config.devtool = 'eval';
-    config.debug = true;
-    let compiler = webpack(config);
+    config.devtool = 'eval'
+    config.debug = true
+    let compiler = webpack(config)
     let server = new WebpackDevServer(compiler, {
       hot: true,
       stats: { colors: true },
       publicPath: config.output.publicPath,
       setup: function(app) {
         // [設定對應 Router]
-        app.use(require('./server.js'));
+        app.use(require('./server.js'))
       },
       // historyApiFallback: {
       //   // [設定對應 Router],方法3
@@ -97,7 +110,7 @@ gulp.task('webpack-dev-server', (callback) => {
       //     { from: /^\/page/, to: '/page.html' },
       //     { from: /^\/./,
       //       to: function(context) {
-      //         return '/assets' + context.parsedUrl.pathname;
+      //         return '/assets' + context.parsedUrl.pathname
       //       }
       //     }
       //   ]
@@ -113,20 +126,20 @@ gulp.task('webpack-dev-server', (callback) => {
       quiet: true,
       noInfo: false,
       // headers: { 'X-Custom-Header': 'yes' }
-    });
+    })
 
     // [設定對應 Router],方法2
-    // server.app.use(require('./server.js'));
+    // server.app.use(require('./server.js'))
 
     // listen
     server.listen(port, '0.0.0.0', (err) => {
-      if (err) throw new $.util.PluginError('webpack-dev-server', err);
+      if (err) throw new $.util.PluginError('webpack-dev-server', err)
       // Server listening
-      $.util.log('[webpack-dev-server]', `http://localhost:${port}/webpack-dev-server/`);
-      $.util.log('[webpack-dev-server]', `http://localhost:${port}/`);
-      callback();
-      opener(`http://localhost:${port}/`);
-    });
+      $.util.log('[webpack-dev-server]', `http://localhost:${port}/webpack-dev-server/`)
+      $.util.log('[webpack-dev-server]', `http://localhost:${port}/`)
+      callback()
+      opener(`http://localhost:${port}/base`)
+    })
 
-  });
-});
+  })
+})

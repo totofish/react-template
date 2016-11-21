@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "gulp webpack-dev-server",
-    "release": "gulp && webpack --release && node server.js --release",
+    "release": "gulp && webpack --release && gulp manifest && node server.js --release",
     "install": "yarn add git+https://github.com/totofish/react-libs.git",
     "cp": "yarn run cp:console && yarn run cp:es5-sham && yarn run cp:es5-shim && yarn run cp:es6-promise && yarn run cp:es6-shim && yarn run cp:fetch && yarn run cp:xhr",
     "cp:console": "cp -f node_modules/console-polyfill/index.js src/assets/scripts/console-polyfill.js",
@@ -43,6 +43,7 @@
     "gulp": "^3.9.1",
     "gulp-imagemin": "^3.0.3",
     "gulp-load-plugins": "^1.3.0",
+    "gulp-manifest": "^0.1.1",
     "gulp-notify": "^2.2.0",
     "gulp-open": "^2.0.0",
     "gulp-plumber": "^1.1.0",

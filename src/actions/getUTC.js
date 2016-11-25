@@ -1,6 +1,9 @@
 import * as types from 'constants/actionTypes'
 import { processingStart, processingEnd } from 'actions/processing'
-import { sysMessage } from 'actions/sys'
+import * as sysAction from 'actions/sys'
+import { multiAction } from 'actions/multiAction'
+import config from 'constants/config'
+
 
 /**
  * 取得 UTC+1 的現在標準時間
@@ -11,7 +14,7 @@ export const getUTC = ({ callback=null }={}) => {
   return {
     type: types.API_ASYNC,
     option: {
-      fullUrl      : 'http://www.timeapi.org/utc/now.json',
+      fullUrl      : config.UTC_API,
       contentType  : 'jsonp',
       body         : { r: Date.now() }
     },
@@ -23,8 +26,24 @@ export const getUTC = ({ callback=null }={}) => {
 }
 
 const getUTCResponse = (response) => {
-  return sysMessage({
-    type   : 'UTC+1',
-    message: response.dateString
+  // return sysAction.sysMessage({
+  //   type   : 'UTC+1',
+  //   message: response.dateString
+  // })
+
+  let animation = []
+  let s = 80
+  for(let i=0, j = response.dateString.length; i < j; i++) {
+    s-=2
+    animation.push(
+      sysAction.delay(s),
+      sysAction.sysMessage({
+        type   : types.TRACK,
+        message: response.dateString.substr(0, i)
+      })
+    )
+  }
+  return multiAction({
+    actions: animation
   })
 }

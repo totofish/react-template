@@ -69,7 +69,7 @@ function* sendAPI(action) {
       message: FetchException
     }))
     if(typeof action.processingEnd === 'object') yield put(action.processingEnd)
-    if(typeof action.callback === 'function') action.callback.call()
+    if(typeof action.callback === 'function') action.callback.call(null, error)
   }
 }
 
@@ -83,18 +83,25 @@ export function* apiFlow(action) {
 /////////////// Multi Step
 function* multiFlow(action) {
   for(let i = 0, j = action.actions.length; i < j; i++) {
-    let actionStep = action.actions[i]
-    if(typeof actionStep === 'object') {
-      if(actionStep.type === types.API_ASYNC) {
-        yield call(sendAPI, actionStep)                   // api 異步處理
-      } else if(actionStep.type === types.DELAY) {        // 暫停
-        yield call(delay, actionStep.millisecond)
-      } else {
-        yield put(actionStep)                             // 一般 action 呼叫
+    try {
+      let actionStep = action.actions[i]
+      if(typeof actionStep === 'object') {
+        if(actionStep.type === types.API_ASYNC) {
+          yield call(sendAPI, actionStep)                   // api 異步處理
+        } else if(actionStep.type === types.DELAY) {        // 暫停
+          yield call(delay, actionStep.millisecond)
+        } else {
+          yield put(actionStep)                             // 一般 action 呼叫
+        }
+      } else if(typeof actionStep === 'function') {
+        actionStep.call()
       }
-    } else if(typeof actionStep === 'function') {
-      actionStep.call()
-    }
+    } catch (error) {
+      yield put(sysMessage({
+        type   : types.ACTION_STEP_ERROR,
+        message: error
+      }))
+    }      
   }
   // yield put({ type: types.ACTION_STEP_END, id:action.id }) // 多筆呼叫結束
 }

@@ -1,8 +1,8 @@
-import * as types from 'constants/actionTypes';
+import * as types from 'constants/actionTypes'
 
 
 let defaultState = {
-  info : {}
+  // info : {}
 }
 
 export default function sys(state = defaultState, action) {
@@ -11,8 +11,8 @@ export default function sys(state = defaultState, action) {
       return { ...state, info: action.info }
 
     case types.SYS_MESSAGE_CLEAR:
-      var stateClone = { ...state };
-      delete stateClone.info;
+      var stateClone = { ...state }
+      delete stateClone.info
       return stateClone
 
     case types.TRACE:

@@ -1,6 +1,7 @@
 const config = {
-  mode    : 'Production',
-  IP_API: 'http://api.ipify.org'
+  mode   : 'Production',
+  IP_API : 'http://api.ipify.org',
+  UTC_API: 'http://www.timeapi.org/utc/now.json'
 }
 
 if (process.env.NODE_ENV === 'development') {

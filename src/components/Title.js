@@ -6,6 +6,7 @@ import * as processingAction from 'actions/processing'
 import * as getIPAction from 'actions/getIP'
 import * as multiAction from 'actions/multiAction'
 import * as getUTCAction from 'actions/getUTC'
+import * as types from 'constants/actionTypes'
 import { BaseComponent } from 'react-libs'
 import config from 'constants/config'
 import Crumbs from './Crumbs'
@@ -30,35 +31,39 @@ export class Title extends BaseComponent {
     this.props.multiAction({
       // id: 'stage-multi',
       actions: [
-        () => { console.info('循環開始'); this.props.sysMessage({ message:'循環開始' }) },
+        () => { this.props.sysMessage({ type:types.TRACK, message:'循環開始' }) },
         processingAction.processingStart(),
 
-        sysAction.delay(1000),
+        sysAction.delay(500),
         sysAction.trace('trace 1'),
-        () => { console.info('trace 1'); this.props.sysMessage({ message:'trace 1' }) },
+        () => { this.props.sysMessage({ type:types.TRACK, message:'trace 1' }) },
 
-        sysAction.delay(1000),
+        sysAction.delay(500),
         sysAction.trace('trace 2'),
-        () => { console.info('trace 2'); this.props.sysMessage({ message:'trace 2' }) },
+        () => { this.props.sysMessage({ type:types.TRACK, message:'trace 2' }) },
 
-        sysAction.delay(1000),
+        sysAction.delay(500),
         sysAction.trace('trace 3'),
-        () => { console.info('trace 3'); this.props.sysMessage({ message:'trace 3' }) },
+        () => { this.props.sysMessage({ type:types.TRACK, message:'trace 3' }) },
 
-        sysAction.delay(1000),
+        sysAction.delay(500),
         sysAction.trace('trace 4'),
-        () => { console.info('trace 4'); this.props.sysMessage({ message:'trace 4' }) },
+        () => { this.props.sysMessage({ type:types.TRACK, message:'trace 4' }) },
 
-        sysAction.delay(1000),
+        sysAction.delay(500),
         processingAction.processingEnd(),
-        () => { console.info('循環結束'); this.props.sysMessage({ message:'循環結束' }) },
+        () => { this.props.sysMessage({ type:types.TRACK, message:'循環結束' }) },
 
         getIPAction.getIP({ callback: (response) => {
-          console.info('IP:', response.ip)
+          try {
+            console.info('IP:', response.ip)
+          } catch(e) {}
         }}),
 
         getUTCAction.getUTC({ callback: (response) => {
-          console.info('UTC+1:', response.dateString)
+          try {
+            console.info('UTC+1:', response.dateString)
+          } catch(e) {}
         }})
       ]
     })
@@ -75,7 +80,7 @@ export class Title extends BaseComponent {
         { jump ? <button onClick={this.click} className="scene__button">Next Page</button> : null }
 
         <button onClick={this.sendMultiAction} className="scene__button">MultiAction API</button>
-        <div className="scene__msg">{ this.props.info.message }</div>
+        <div className="scene__msg">{ this.props.info ? this.props.info.message : null }</div>
       </div>
     )
   }

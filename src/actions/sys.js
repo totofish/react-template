@@ -8,10 +8,10 @@ sysMessage({
 })
 */
 
-export const sysMessage = (message=null) => {
+export const sysMessage = ({ type, ...message }) => {
   return {
     type: types.SYS_MESSAGE,
-    info: message
+    info: type ? { type, ...message } : null
   }
 }
 

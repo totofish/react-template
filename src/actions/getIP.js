@@ -1,6 +1,7 @@
 import * as types from 'constants/actionTypes'
 import { processingStart, processingEnd } from 'actions/processing'
-import { sysMessage } from 'actions/sys'
+import * as sysAction from 'actions/sys'
+import { multiAction } from 'actions/multiAction'
 import config from 'constants/config'
 
 
@@ -26,8 +27,22 @@ export const getIP = ({ callback=null }={}) => {
 }
 
 const ipResponse = (response) => {
-  return sysMessage({
+  return sysAction.sysMessage({
     type   : 'IP',
     message: response.ip
   })
+
+  // let animation = []
+  // for(let i=0, j = response.ip.length; i < j; i++) {
+  //   animation.push(
+  //     sysAction.delay(50),
+  //     sysAction.sysMessage({
+  //       type   : types.TRACK,
+  //       message: response.ip.substr(0, i)
+  //     })
+  //   )
+  // }
+  // return multiAction({
+  //   actions: animation
+  // })
 }

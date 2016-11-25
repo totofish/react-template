@@ -15,9 +15,12 @@ export const API_ERROR   = 'API_ERROR'
 // Multi Action
 export const ACTION_STEP_ASYNC  = 'ACTION_STEP_ASYNC'
 export const ACTION_STEP_CANCEL = 'ACTION_STEP_CANCEL'
+export const ACTION_STEP_ERROR  = 'ACTION_STEP_ERROR'
 
 // System Message
-export const SYS_MESSAGE = 'SYS_MESSAGE'
+export const SYS_MESSAGE       = 'SYS_MESSAGE'
+export const SYS_MESSAGE_CLEAR = 'SYS_MESSAGE_CLEAR'
+export const TRACK             = 'TRACK'
 
 // Processing
 export const PROCESSING_START = 'PROCESSING_START'

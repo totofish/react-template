@@ -1,4 +1,5 @@
 import 'babel-polyfill'
+import 'fetch-polyfill'
 import React from 'react'
 import { render } from 'react-dom'
 import { createStore, applyMiddleware, compose } from 'redux'

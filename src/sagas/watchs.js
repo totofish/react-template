@@ -68,8 +68,10 @@ function* sendAPI(action) {
       type   : types.FAILED_FETCH,
       message: FetchException
     }))
-    if(typeof action.processingEnd === 'object') yield put(action.processingEnd)
-    if(typeof action.callback === 'function') action.callback.call(null, error)
+    try {
+      if(typeof action.processingEnd === 'object') yield put(action.processingEnd)
+      // if(typeof action.callback === 'function') action.callback.call(null, error)
+    } catch (e) {}
   }
 }
 
@@ -101,7 +103,7 @@ function* multiFlow(action) {
         type   : types.ACTION_STEP_ERROR,
         message: error
       }))
-    }      
+    }
   }
   // yield put({ type: types.ACTION_STEP_END, id:action.id }) // 多筆呼叫結束
 }

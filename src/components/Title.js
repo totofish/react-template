@@ -55,15 +55,11 @@ export class Title extends BaseComponent {
         () => { this.props.sysMessage({ type:types.TRACK, message:'循環結束' }) },
 
         getIPAction.getIP({ callback: (response) => {
-          try {
-            console.info('IP:', response.ip)
-          } catch(e) {}
+          console.info('IP:', response.ip)
         }}),
 
         getUTCAction.getUTC({ callback: (response) => {
-          try {
-            console.info('UTC+1:', response.dateString)
-          } catch(e) {}
+          console.info('UTC+1:', response.dateString)
         }})
       ]
     })

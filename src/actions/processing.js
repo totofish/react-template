@@ -6,6 +6,7 @@ import * as types from '../constants/actionTypes'
  * @return Processing Start Action
  */
 export const processingStart = (level = 'global') => {
+  if(!level) return
   return {
     type : types.PROCESSING_START,
     level: level
@@ -18,6 +19,7 @@ export const processingStart = (level = 'global') => {
  * @return Processing End Action
  */
 export const processingEnd = (level = 'global') => {
+  if(!level) return
   return {
     type: types.PROCESSING_END,
     level: level

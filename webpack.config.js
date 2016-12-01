@@ -103,7 +103,10 @@ module.exports = {
     ],
     extensions: ['', '.js', '.jsx', '.css', '.scss', '.ts', '.tsx']
   },
-  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ]
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "./src/assets/sass")]
+  }
 }
 
 // 指定./src/*.js為Bundle Entry

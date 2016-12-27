@@ -12,7 +12,7 @@ function fetchAPI(url, options) {
           .then(
             response => response,
             error => {
-              throw new Error(response.statusText)
+              throw new Error(error.message)
             }
           )
 }
@@ -64,6 +64,9 @@ function* sendAPI(action) {
     //   type: types.API_ERROR,
     //   error
     // })
+
+    // 如有自訂Error在這邊檢視
+    // console.info(error.name, error.message)
     yield put(sysMessage({
       type   : types.FAILED_FETCH,
       message: FetchException

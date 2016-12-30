@@ -2,15 +2,15 @@ import * as types from 'constants/actionTypes'
 import { processingStart, processingEnd } from 'actions/processing'
 import * as sysAction from 'actions/sys'
 import { multiAction } from 'actions/multiAction'
-import config from 'constants/config'
-
+import config, { processGlobalLevel, processAllLevel } from 'constants/config'
+import { randomRocessId } from 'utility/encodeQueryData'
 
 /**
  * Get IP API
  * @param  callback  回呼function
  * @return Get IP Action
  */
-export const getIP = ({ callback=null }={}) => {
+export const getIP = ({ callback=null, processLevel=processGlobalLevel, processId=randomRocessId() }={}) => {
   return {
     type: types.API_ASYNC,
     option: {
@@ -20,8 +20,8 @@ export const getIP = ({ callback=null }={}) => {
       body         : { format: 'json' }
     },
     callback,
-    processingStart: processingStart('ip'),
-    processingEnd  : processingEnd('ip'),
+    processingStart: processingStart(processLevel, processId),
+    processingEnd  : processingEnd(processLevel, processId),
     success        : ipResponse
   }
 }

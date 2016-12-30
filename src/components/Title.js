@@ -10,6 +10,7 @@ import * as types from 'constants/actionTypes'
 import { BaseComponent } from 'react-libs'
 import config from 'constants/config'
 import Crumbs from './Crumbs'
+import { processGlobalLevel, processAllLevel } from 'constants/config'
 
 export class Title extends BaseComponent {
   constructor(props) {
@@ -32,7 +33,7 @@ export class Title extends BaseComponent {
       // id: 'stage-multi',
       actions: [
         () => { this.props.sysMessage({ type:types.TRACK, message:'循環開始' }) },
-        processingAction.processingStart(),
+        // processingAction.processingStart(),
 
         sysAction.delay(500),
         sysAction.trace('trace 1'),
@@ -51,7 +52,7 @@ export class Title extends BaseComponent {
         () => { this.props.sysMessage({ type:types.TRACK, message:'trace 4' }) },
 
         sysAction.delay(500),
-        processingAction.processingEnd(),
+        // processingAction.processingEnd(),
         () => { this.props.sysMessage({ type:types.TRACK, message:'循環結束' }) },
 
         getIPAction.getIP({ callback: (response) => {

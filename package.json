@@ -67,6 +67,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "classnames": "^2.2.5",
     "console-polyfill": "^0.2.3",
     "domready": "^1.0.8",
     "es5-shim": "^4.5.9",

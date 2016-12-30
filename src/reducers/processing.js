@@ -1,26 +1,26 @@
 import * as types from 'constants/actionTypes';
+import { processGlobalLevel, processAllLevel } from 'constants/config'
 
 
-let defaultState = {
-  show : false,
-  level: 'all'
-}
-
-export default function processing(state = defaultState, action) {
+export default function processing(state = [], action) {
   switch (action.type) {
     case types.PROCESSING_START:
-      return {
-        ...state,
-        show : true,
-        level: action.level
-      };
+      let stateList = [...state]
+      stateList.push({
+        level: action.level,
+        id   : action.id
+      })
+      return stateList
+
     case types.PROCESSING_END:
-      return {
-        ...state,
-        show : false,
-        level: action.level
-      };
+      if(action.level === processAllLevel) return []
+      let stateFilter = state.filter((item) => {
+        if(item.id !== action.id || item.level !== action.level) return true
+        return false
+      })
+      return stateFilter
+
     default:
-      return state;
+      return state
   }
 }

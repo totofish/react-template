@@ -83,6 +83,8 @@ export function* apiFlow(action) {
   const task = yield fork(sendAPI, action)
   yield take(types.API_CANCEL)
   yield cancel(task)
+  // 清除processing狀態
+  if(typeof action.processingEnd === 'object') yield put(action.processingEnd)
 }
 
 /////////////// Multi Step
@@ -115,6 +117,19 @@ export function* MultiActionFlow(action) {
   const task = yield fork(multiFlow, action)
   yield take(types.ACTION_STEP_CANCEL)
   yield cancel(task)
+  // 清除所有action的processing狀態
+  for(let i = 0, j = action.actions.length; i < j; i++) {
+    // try {
+      let actionStep = action.actions[i]
+      if(typeof actionStep === 'object') {
+        if(actionStep.type === types.API_ASYNC) {
+          if(typeof actionStep.processingEnd === 'object') yield put(actionStep.processingEnd)
+        } else if(actionStep.type === types.PROCESSING_END) {
+          yield put(actionStep)
+        }
+      }
+    // } catch (error) {}
+  }
 }
 
 

@@ -25,3 +25,19 @@ export function getUrlQuery(query=window.location.search.substring(1)) {
   while (match = search.exec(query)) urlParams[decode(match[1])] = decode(match[2]);
   return urlParams;
 }
+
+
+export function s4() {
+  return Math.floor((1 + Math.random()) * 0x10000)
+    .toString(16)
+    .substring(1)
+}
+
+export function guid() {
+	return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+		s4() + '-' + s4() + s4() + s4();
+}
+
+export function randomRocessId() {
+  return `${ Date.now() }-${ s4() }${ s4() }`
+}

@@ -14,6 +14,7 @@ import 'assets/sass/styles'
 import Title from 'components/Title'
 import { html } from 'react-libs'
 import 'react-libs/dist/react-libs.css'
+import Progress from 'components/Progress'
 
 const sagaMiddleware = createSagaMiddleware()
 const middlewares = [sagaMiddleware]
@@ -37,6 +38,7 @@ domready(() => {
           <div className="scene__circle scene__circle--black"></div>
           <figure className="scene__icon" onClick={()=>{ location.replace('/base') }}></figure>
         </CenterBox>
+        <Progress />
       </div>
     </Provider>
   ), document.getElementById('root'))

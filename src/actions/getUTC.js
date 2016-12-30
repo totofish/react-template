@@ -2,7 +2,8 @@ import * as types from 'constants/actionTypes'
 import { processingStart, processingEnd } from 'actions/processing'
 import * as sysAction from 'actions/sys'
 import { multiAction } from 'actions/multiAction'
-import config from 'constants/config'
+import config, { processGlobalLevel, processAllLevel } from 'constants/config'
+import { randomRocessId } from 'utility/encodeQueryData'
 
 
 /**
@@ -10,7 +11,7 @@ import config from 'constants/config'
  * @param  callback  回呼function
  * @return Get UTC Action
  */
-export const getUTC = ({ callback=null }={}) => {
+export const getUTC = ({ callback=null, processLevel=processGlobalLevel, processId=randomRocessId() }={}) => {
   return {
     type: types.API_ASYNC,
     option: {
@@ -19,9 +20,9 @@ export const getUTC = ({ callback=null }={}) => {
       body         : { r: Date.now() }
     },
     callback,
-    processingStart: processingStart('utc'),
-    processingEnd  : processingEnd('utc'),
-    success: getUTCResponse
+    processingStart: processingStart(processLevel, processId),
+    processingEnd  : processingEnd(processLevel, processId),
+    success        : getUTCResponse
   }
 }
 

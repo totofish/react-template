@@ -1,16 +1,15 @@
 import * as types from 'constants/actionTypes'
-import { processingStart, processingEnd } from 'actions/processing'
+import { processingStart, processingEnd, randomRocessId } from 'actions/processing'
 import * as sysAction from 'actions/sys'
 import { multiAction } from 'actions/multiAction'
-import config, { processGlobalLevel, processAllLevel } from 'constants/config'
-import { randomRocessId } from 'utility/encodeQueryData'
+import config, { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
 
 /**
  * Get IP API
  * @param  callback  回呼function
  * @return Get IP Action
  */
-export const getIP = ({ callback=null, processLevel=processGlobalLevel, processId=randomRocessId() }={}) => {
+export const getIP = ({ callback=null, processLevel=PROCESS_GLOBAL, processId=randomRocessId() }={}) => {
   return {
     type: types.API_ASYNC,
     option: {

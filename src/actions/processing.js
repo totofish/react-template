@@ -1,5 +1,10 @@
 import * as types from '../constants/actionTypes'
-import { processGlobalLevel, processAllLevel } from 'constants/config'
+import { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
+import { s4 } from 'utility/guid'
+
+export function randomRocessId() {
+  return `${ Date.now() }-${ s4() }${ s4() }`
+}
 
 /**
  * 開始Processing狀態
@@ -7,7 +12,7 @@ import { processGlobalLevel, processAllLevel } from 'constants/config'
  * @param  id
  * @return Processing Start Action
  */
-export const processingStart = (level = processGlobalLevel, id = '#') => {
+export const processingStart = (level = PROCESS_GLOBAL, id = '#') => {
   if(!level) return
   return {
     type : types.PROCESSING_START,
@@ -22,7 +27,7 @@ export const processingStart = (level = processGlobalLevel, id = '#') => {
  * @param  id
  * @return Processing End Action
  */
-export const processingEnd = (level = processGlobalLevel, id = '#') => {
+export const processingEnd = (level = PROCESS_GLOBAL, id = '#') => {
   if(!level) return
   return {
     type: types.PROCESSING_END,

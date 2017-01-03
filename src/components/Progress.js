@@ -1,7 +1,7 @@
 import React, { PropTypes, Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { processGlobalLevel, processAllLevel } from 'constants/config'
+import { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
 import classnames from 'classnames'
 
 class Progress extends Component {
@@ -10,9 +10,9 @@ class Progress extends Component {
   }
 
   render() {
-    // 只顯示processGlobalLevel, processAllLevel層級的processing
+    // 只顯示PROCESS_GLOBAL, PROCESS_ALL層級的processing
     let list = this.props.processing.filter((item) => {
-      if(item.level === processGlobalLevel || item.level === processAllLevel) return true
+      if(item.level === PROCESS_GLOBAL || item.level === PROCESS_ALL) return true
       return false
     })
     return (

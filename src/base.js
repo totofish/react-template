@@ -13,13 +13,14 @@ import { useScroll } from 'react-router-scroll'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/rootSaga'
 import domready from 'domready'
+import { DEVELOPMENT, BASE_PAGE_BASENAME } from 'constants/config'
 import 'assets/sass/styles.scss'
 import 'react-libs/dist/react-libs.css'
 
 
 const sagaMiddleware = createSagaMiddleware()
 const middlewares = [sagaMiddleware]
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === DEVELOPMENT) {
   middlewares.push(createLogger())
 }
 
@@ -45,7 +46,7 @@ function PageNotFound(nextState, cb) {
 }
 
 const routes = require('./routes/indexRoute')
-const history = useRouterHistory(createHistory)({ basename: '/base' })
+const history = useRouterHistory(createHistory)({ basename: BASE_PAGE_BASENAME })
 store.dispatch({
   type: types.ROUTE_DATA,
   routes

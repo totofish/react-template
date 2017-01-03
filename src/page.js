@@ -9,6 +9,7 @@ import reducer from 'reducers'
 import createSagaMiddleware from 'redux-saga'
 import rootSaga from './sagas/rootSaga'
 import domready from 'domready'
+import { DEVELOPMENT } from 'constants/config'
 
 import 'assets/sass/styles'
 import Title from 'components/Title'
@@ -18,7 +19,7 @@ import Progress from 'components/Progress'
 
 const sagaMiddleware = createSagaMiddleware()
 const middlewares = [sagaMiddleware]
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === DEVELOPMENT) {
   middlewares.push(createLogger())
 }
 

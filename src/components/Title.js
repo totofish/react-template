@@ -10,7 +10,7 @@ import * as types from 'constants/actionTypes'
 import { BaseComponent } from 'react-libs'
 import config from 'constants/config'
 import Crumbs from './Crumbs'
-import { processGlobalLevel, processAllLevel } from 'constants/config'
+import { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
 
 export class Title extends BaseComponent {
   constructor(props) {

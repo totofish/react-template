@@ -1,9 +1,8 @@
 import * as types from 'constants/actionTypes'
-import { processingStart, processingEnd } from 'actions/processing'
+import { processingStart, processingEnd, randomRocessId } from 'actions/processing'
 import * as sysAction from 'actions/sys'
 import { multiAction } from 'actions/multiAction'
-import config, { processGlobalLevel, processAllLevel } from 'constants/config'
-import { randomRocessId } from 'utility/encodeQueryData'
+import config, { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
 
 
 /**
@@ -11,7 +10,7 @@ import { randomRocessId } from 'utility/encodeQueryData'
  * @param  callback  回呼function
  * @return Get UTC Action
  */
-export const getUTC = ({ callback=null, processLevel=processGlobalLevel, processId=randomRocessId() }={}) => {
+export const getUTC = ({ callback=null, processLevel=PROCESS_GLOBAL, processId=randomRocessId() }={}) => {
   return {
     type: types.API_ASYNC,
     option: {

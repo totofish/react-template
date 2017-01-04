@@ -8,7 +8,12 @@ import jsonp from 'jsonp'
 
 function fetchAPI(url, options) {
   return fetch(url, options)
-          .then(response => response.json())
+          .then(response => {
+            if (response.status < 200 || response.status > 399) {
+              throw new Error(response.status)
+            }
+            return response.json()
+          })
           .then(
             response => response,
             error => {
@@ -17,7 +22,7 @@ function fetchAPI(url, options) {
           )
 }
 
-function api({ fullUrl, contentType, Authorization, method='GET', body }) {
+function api({ fullUrl, contentType, Authorization, method='GET', body={} }) {
   method = method.toLocaleUpperCase()
   contentType = contentType.toLocaleUpperCase()
   if(contentType === 'JSONP') method = 'GET'
@@ -48,10 +53,6 @@ function* sendAPI(action) {
     // 正常程序
     if(action.processingStart) yield put(action.processingStart)
     const response = yield call(api, action.option)
-    // yield put({
-    //   type: types.API_SUCCESS,
-    //   response
-    // })
     if(action.success) {
       let next = action.success(response)
       if(next) yield put(next)
@@ -60,17 +61,27 @@ function* sendAPI(action) {
     if(typeof action.callback === 'function') action.callback.call(null, response)
   } catch (error) {
     // 失敗程序
-    // yield put({
-    //   type: types.API_ERROR,
-    //   error
-    // })
-
     // 如有自訂Error在這邊檢視
     // console.info(error.name, error.message)
-    yield put(sysMessage({
-      type   : types.FAILED_FETCH,
-      message: FetchException
-    }))
+    switch(error.message) {
+      case '401':
+        yield put(sysMessage({
+          type   : types.FAILED_FETCH,
+          message: 'Unauthorized'
+        }))
+        break
+      case '408':
+        yield put(sysMessage({
+          type   : types.FAILED_FETCH,
+          message: 'Request Timeout'
+        }))
+        break
+      default:
+        yield put(sysMessage({
+          type   : types.FAILED_FETCH,
+          message: FetchException
+        }))
+    }
     try {
       if(typeof action.processingEnd === 'object') yield put(action.processingEnd)
       // if(typeof action.callback === 'function') action.callback.call(null, error)

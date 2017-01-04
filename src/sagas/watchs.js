@@ -6,20 +6,13 @@ import { sysMessage } from 'actions/sys'
 import { FetchException } from 'constants/config'
 import jsonp from 'jsonp'
 
-function fetchAPI(url, options) {
-  return fetch(url, options)
-          .then(response => {
-            if (response.status < 200 || response.status > 399) {
-              throw new Error(response.status)
-            }
-            return response.json()
-          })
-          .then(
-            response => response,
-            error => {
-              throw new Error(error.message)
-            }
-          )
+
+async function fetchAPI(url, options) {
+  let response = await fetch(url, options)
+  if (response.status < 200 || response.status > 399) {
+    throw new Error(response.status)
+  }
+  return await response.json()
 }
 
 function api({ fullUrl, contentType, Authorization, method='GET', body={} }) {
@@ -31,7 +24,7 @@ function api({ fullUrl, contentType, Authorization, method='GET', body={} }) {
     fullUrl = `${urls[0]}?${encodeQueryData({...getUrlQuery(urls[1] || ''), ...body})}`
   }
   if(contentType === 'JSONP') {
-    return new Promise(function(resolve, reject) {
+    return new Promise((resolve, reject) => {
       jsonp(fullUrl, {}, (err, data) => {
         if(err) reject(err)
         else resolve(data)

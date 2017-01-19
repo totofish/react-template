@@ -27,7 +27,7 @@ module.exports = [
       getComponent(nextState, cb) {
         require.ensure([], (require) => {
           cb(null, require('components/Scene').default)
-        })
+        }, 'page')
       },
       childRoutes: [{
         // home/page/info
@@ -37,7 +37,7 @@ module.exports = [
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
             cb(null, require('components/Scene').default)
-          })
+          }, 'page')
         }
       }]
     }]
@@ -49,7 +49,7 @@ module.exports = [
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
         cb(null, require('components/Scene').default)
-      })
+      }, 'page')
     }
   }, {
     // demo
@@ -59,7 +59,7 @@ module.exports = [
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
         cb(null, require('components/Scene').default)
-      })
+      }, 'page')
     },
     childRoutes: [{
       // demo/:value
@@ -69,7 +69,7 @@ module.exports = [
       getComponent(nextState, cb) {
         require.ensure([], (require) => {
           cb(null, require('components/Scene').default)
-        })
+        }, 'page')
       }
     }]
   }

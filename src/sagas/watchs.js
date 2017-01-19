@@ -21,7 +21,8 @@ function api({ fullUrl, contentType, Authorization, method='GET', body={} }) {
   if(contentType === 'JSONP') method = 'GET'
   if(method === 'GET') {
     let urls = fullUrl.split('?')
-    fullUrl = `${urls[0]}?${encodeQueryData({...getUrlQuery(urls[1] || ''), ...body})}`
+    let query = encodeQueryData({...getUrlQuery(urls[1] || ''), ...body})
+    fullUrl = `${urls[0]}${query ? '?' + query : ''}`
   }
   if(contentType === 'JSONP') {
     return new Promise((resolve, reject) => {
@@ -67,6 +68,12 @@ function* sendAPI(action) {
         yield put(sysMessage({
           type   : types.FAILED_FETCH,
           message: 'Request Timeout'
+        }))
+        break
+      case '404':
+        yield put(sysMessage({
+          type   : types.FAILED_FETCH,
+          message: 'Server Not Found'
         }))
         break
       default:

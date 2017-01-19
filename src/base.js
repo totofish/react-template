@@ -32,17 +32,17 @@ sagaMiddleware.run(rootSaga)
 function Stage(nextState, cb) {
   require.ensure([], (require) => {
     cb(null, require('./components/Stage').default)
-  })
+  }, 'page')
 }
 function Scene(nextState, cb) {
   require.ensure([], (require) => {
     cb(null, require('./components/Scene').default)
-  })
+  }, 'page')
 }
 function PageNotFound(nextState, cb) {
   require.ensure([], (require) => {
     cb(null, require('./components/PageNotFound').default)
-  })
+  }, 'page')
 }
 
 const routes = require('./routes/indexRoute')

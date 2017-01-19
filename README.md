@@ -11,7 +11,7 @@ $ yarn install
 $ yarn run cp           // copy paste其他polyfill到scripts資料夾,windows不支援這指令
 $ yarn run dev          // development開發測試
 $ yarn run release      // production發佈
-$ yarn run install      // install self git module
+$ yarn run addlibs      // add self git module
 ```
 
 ##架構特點
@@ -25,7 +25,7 @@ $ yarn run install      // install self git module
 >
 > 使用gulp將Production發佈檔案整理至/dist並壓縮優化相關檔案.
 >
-> 使用npm install git方式使用自製module.
+> 使用yarn add git方式使用自製module.
 >
 > 使用Dynamic Routing並傳入Reducer中讓麵包屑對應單元.
 >

@@ -85,7 +85,7 @@ gulp.task('webpack-dev-server', (callback) => {
 
   // 偵測可用的port
   portfinder.getPort( (err, port) => {
-    let config = Object.create(webpackConfig)
+    let config = webpackConfig()
     config.plugins.push(new DashboardPlugin(new Dashboard().setData))
     // Inline mode 比較好用
     for(let index in config.entry){

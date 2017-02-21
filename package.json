@@ -1,6 +1,6 @@
 {
   "name": "react-template",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "React Template",
   "main": "src/index.js",
   "repository": {
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "dev": "gulp webpack-dev-server",
-    "release": "gulp && webpack --release && gulp manifest && node server.js --release",
+    "release": "gulp && webpack --env.production && gulp manifest && node server.js --env.production",
     "addlibs": "yarn add git+https://github.com/totofish/react-libs.git",
     "cp": "yarn run cp:console && yarn run cp:es5-sham && yarn run cp:es5-shim && yarn run cp:es6-promise && yarn run cp:es6-shim && yarn run cp:fetch && yarn run cp:xhr",
     "cp:console": "cp -f node_modules/console-polyfill/index.js src/assets/scripts/console-polyfill.js",

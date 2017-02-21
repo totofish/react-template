@@ -59,8 +59,8 @@ export class Title extends BaseComponent {
           console.info('IP:', response.ip)
         }}),
 
-        getUTCAction.getUTC({ callback: (response) => {
-          console.info('UTC+1:', response.dateString)
+        getUTCAction.getUTCDate({ callback: (response) => {
+          console.info('UTC+1:', response.headers.get('date'))
         }})
       ]
     })

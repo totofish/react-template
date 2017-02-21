@@ -1,6 +1,6 @@
 #React-template [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/totofish/react-template/master/LICENSE)
 
-使用 gulp + webpack + react + react-router + react-redux 基礎workflow架構
+使用 gulp + webpack 2 + react + react-router + react-redux 基礎workflow架構
 
 
 

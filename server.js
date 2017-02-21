@@ -5,13 +5,19 @@ const app         = express()
 const opener      = require("opener")
 const portfinder  = require('portfinder')
 const fs          = require('fs')
-let argv          = require('minimist')(process.argv.slice(2), { boolean:['release'] })
+let env           = require('minimist')(process.argv.slice(2)).env
 const cache       = {maxAge:'7d'}
 
+try {
+  env = { production: env.production == true || env.production == 'true' }
+} catch(e) {
+  env = { production: false }
+}
+
 let router = express.Router()
-let staticFolder, rootFolder
 router.use(compression())
-if(argv.release) {
+let staticFolder, rootFolder
+if(env.production) {
   // Production Release
   staticFolder = '/dist'
   rootFolder = '/dist/'
@@ -45,9 +51,10 @@ router.get('/page*', (req, res, next) => {
 */
 
 
-if(argv.release) {
+if(env.production) {
   portfinder.getPort( (err, port) => {
     app.use(router)
+    app.use(compression())
     app.listen(port, () => {
       console.info('[express-server]', `http://localhost:${port}/`)
       opener(`http://localhost:${port}/base`)

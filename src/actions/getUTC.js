@@ -4,46 +4,55 @@ import * as sysAction from 'actions/sys'
 import { multiAction } from 'actions/multiAction'
 import config, { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
 
-
 /**
- * 取得 UTC+1 的現在標準時間
- * @param  callback  回呼function
- * @return Get UTC Action
+ * 取得Server時間
+ * @param  function callback
  */
-export const getUTC = ({ callback=null, processLevel=PROCESS_GLOBAL, processId=randomRocessId() }={}) => {
+export const getUTCDate = ({ processingLevel=PROCESS_GLOBAL, callback=null, processId=randomRocessId() } = {}) => {
   return {
-    type: types.API_ASYNC,
-    option: {
-      fullUrl      : config.UTC_API,
-      contentType  : 'jsonp',
-      body         : { r: Date.now() }
-    },
-    callback,
-    processingStart: processingStart(processLevel, processId),
-    processingEnd  : processingEnd(processLevel, processId),
-    success        : getUTCResponse
+    type           : types.FETCH_ASYNC,
+    url            : document.location,
+    options        : {},
+    processingStart: processingStart(processingLevel, processId),
+    processingEnd  : processingEnd(processingLevel, processId),
+    success        : getUTCDateResponse,
+    callback
   }
+  // return fetch(document.location).then((response) => {
+  //   for(var key of response.headers.keys()) {
+  //     console.log(key, ':', response.headers.get(key))
+  //   }
+  //   return response.headers.get('date')
+  // })
 }
 
-const getUTCResponse = (response) => {
-  // return sysAction.sysMessage({
-  //   type   : 'UTC+1',
-  //   message: response.dateString
-  // })
-
+export const getUTCDateResponse = (response) => {
+  // 擷取Response Headers中的Date資訊，藉此抓取server時間
+  const UTC = new Date(response.headers.get('date')).toString()
   let animation = []
   let s = 80
-  for(let i=0, j = response.dateString.length; i < j; i++) {
+  for(let i=0, j = UTC.length; i <= j; i++) {
     s-=2
     animation.push(
       sysAction.delay(s),
       sysAction.sysMessage({
         type   : types.TRACK,
-        message: response.dateString.substr(0, i)
+        message: UTC.substr(0, i)
       })
     )
   }
+
+  // 直接回 Action
   return multiAction({
     actions: animation
+  })
+
+  // 或回一個 Promise
+  return response.blob().then((d) => {
+    return multiAction({
+      actions: animation
+    })
+  },() => {
+    console.log('error')
   })
 }

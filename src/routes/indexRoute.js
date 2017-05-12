@@ -28,7 +28,7 @@ export default [
       getComponent(nextState, cb) {
         require.ensure([], (require) => {
           cb(null, require('components/Scene').default)
-        }, 'page')
+        }, 'base-page')
       },
       childRoutes: [{
         // home/page/info
@@ -38,7 +38,7 @@ export default [
         getComponent(nextState, cb) {
           require.ensure([], (require) => {
             cb(null, require('components/Scene').default)
-          }, 'page')
+          }, 'base-page')
         }
       }]
     }]
@@ -50,7 +50,7 @@ export default [
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
         cb(null, require('components/Scene').default)
-      }, 'page')
+      }, 'base-page')
     }
   }, {
     // demo
@@ -60,7 +60,7 @@ export default [
     getComponent(nextState, cb) {
       require.ensure([], (require) => {
         cb(null, require('components/Scene').default)
-      }, 'page')
+      }, 'base-page')
     },
     childRoutes: [{
       // demo/:value
@@ -70,7 +70,7 @@ export default [
       getComponent(nextState, cb) {
         require.ensure([], (require) => {
           cb(null, require('components/Scene').default)
-        }, 'page')
+        }, 'base-page')
       }
     }]
   }

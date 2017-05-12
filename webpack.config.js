@@ -1,12 +1,15 @@
 "use strict"
 
-const path              = require("path")
-const autoprefixer      = require("autoprefixer")
-const webpack           = require("webpack")
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-const fs                = require("fs")
+const path                      = require("path")
+const autoprefixer              = require("autoprefixer")
+const webpack                   = require("webpack")
+const ExtractTextPlugin         = require("extract-text-webpack-plugin")
+const HtmlWebpackPlugin         = require("html-webpack-plugin")
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
+const fs                        = require("fs")
 
+// 設定html上的base href
+const base = '/'
 
 module.exports = (env) => {
   try {
@@ -18,77 +21,84 @@ module.exports = (env) => {
 
   let config = {
     entry: {
-      // "baseApp": ["./src/base.js"],
-      // "pageApp" : ["./src/page.js"],
-      "commons": ["react", "redux-saga", "react-router"]
+      // "base": ["./src/base.js"],
+      // "page" : ["./src/page.js"],
+      "commons": ["fetch-polyfill", "react", "redux-saga", "react-router"]
     },
     output: {
       // libraryTarget: "umd",
-      path: path.join(__dirname, "dist/scripts"),
-      filename: "[name].js",
-      publicPath: "/scripts/",
-      chunkFilename: "[name].chunk.js"
+      path: path.join(__dirname, "dist"),
+      filename: "scripts/[name].js",
+      publicPath: "",
+      chunkFilename: "scripts/[name].chunk.js"
       // chunkFilename: "[name].[hash].js"
     },
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
         name: "commons",
-        // chunks: ["indexApp", "pageApp"]
+        minChunks: Infinity,
+        // chunks: ["index", "page"]
       }),
       new webpack.DefinePlugin({
         // 將 Environment Variables - 環境變數傳入
         "process.env.NODE_ENV": JSON.stringify(env.production ? "production" : "development")
       }),
       new ExtractTextPlugin({
-        filename: "[name].css",
+        filename: "css/styles.css",
         allChunks: true,
-        disable: true
+        disable: false
       }),
       new webpack.LoaderOptionsPlugin({
         debug: env.production ? false : true,
         options: {
           context: __dirname,
           postcss: [
-            autoprefixer({ browsers: ["last 2 versions"] })
+            autoprefixer({ browsers: ["last 2 versions"], remove: false })
           ],
           sassLoader: {
             includePaths: [path.resolve(__dirname, "./src/assets/sass")]
           }
         }
       }),
-      // new HtmlWebpackPlugin({
-      //     release: env.production,
-      //     chunks: ["baseApp"], // 指定對應到的entry為app
-      //     filename: "base.html",
-      //     template: "./src/template.html",
-      //     inject: "body",
-      //     hash: true,
-      //     minify: {
-      //         minifyCSS: env.production,
-      //         minifyJS: env.production,
-      //         removeComments: env.production,
-      //         collapseWhitespace: env.production,
-      //         preserveLineBreaks: true
-      //     }
-      // }),
-      // new HtmlWebpackPlugin({
-      //     release: env.production,
-      //     chunks: ["pageApp"], // 指定對應到的entry為app
-      //     filename: "page.html",
-      //     template: "./src/template.html",
-      //     inject: "body",
-      //     hash: true,
-      //     minify: {
-      //         minifyCSS: env.production,
-      //         minifyJS: env.production,
-      //         removeComments: env.production,
-      //         collapseWhitespace: env.production,
-      //         preserveLineBreaks: true
-      //     }
-      // })
+      new HtmlWebpackPlugin({
+        chunks: ["commons", "base"],
+        filename: 'base.html',
+        template: "./src/ejs/base.ejs",
+        inject: "head",
+        hash: true,
+        minify: {
+          minifyCSS: env.production,
+          minifyJS: env.production,
+          removeComments: env.production,
+          collapseWhitespace: env.production,
+          preserveLineBreaks: true
+        },
+        alwaysWriteToDisk: true,
+        base: base
+      }),
+      new HtmlWebpackPlugin({
+        chunks: ["commons", "page"],
+        filename: 'page.html',
+        template: "./src/ejs/page.ejs",
+        inject: "head",
+        hash: true,
+        minify: {
+          minifyCSS: env.production,
+          minifyJS: env.production,
+          removeComments: env.production,
+          collapseWhitespace: env.production,
+          preserveLineBreaks: true
+        },
+        alwaysWriteToDisk: true,
+        base: base
+      }),
+      new HtmlWebpackHarddiskPlugin(
+        env.production ? null : { outputPath: path.resolve(__dirname, 'src/tmp') }
+      )
     ],
     module: {
       rules: [
+        { test: /\.ejs$/, loader: 'ejs-loader' },
         {
           test: /\.js$/,
           use: [
@@ -112,7 +122,10 @@ module.exports = (env) => {
           use: ExtractTextPlugin.extract({
             fallback: "style-loader",
             use: [
-              "css-loader",
+              {
+                loader: 'css-loader',
+                options: { url: false, minimize: true }
+              },
               "postcss-loader",
               "sass-loader",
             ],
@@ -125,7 +138,8 @@ module.exports = (env) => {
               loader: "url-loader",
               options: {
                 limit: 10000,
-                name: "[path][name].[ext]"
+                name: "[path][name].[ext]",
+                // context: "./src/assets",
               }
             }, {
               loader: "img-loader",
@@ -159,7 +173,7 @@ module.exports = (env) => {
     if (fs.statSync(path.join(__dirname + "/src", file)).isFile()) {
       if(/.js$/.test(file)) {
         let fileName = file.replace(/.js$/, "")
-        config.entry[`${fileName}App`] = [`./src/${fileName}.js`]
+        config.entry[`${fileName}`] = [`./src/${fileName}.js`]
       }
     }
   })

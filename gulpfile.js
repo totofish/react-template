@@ -20,7 +20,7 @@ let onError = (err) => {
 // Default task
 ///////////////////////////////
 gulp.task('default', ['clear'], () => {
-  gulp.start(['copyImg', 'copyScript', 'copyHTML'], () => {
+  gulp.start(['copyImg', 'copyScript'], () => {
     console.info('webpack build...')
   })
 })

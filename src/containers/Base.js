@@ -9,17 +9,17 @@ import 'react-libs/dist/react-libs.css'
 function Stage(nextState, cb) {
   require.ensure([], (require) => {
     cb(null, require('../components/Stage').default)
-  }, 'page')
+  }, 'base-page')
 }
 function Scene(nextState, cb) {
   require.ensure([], (require) => {
     cb(null, require('../components/Scene').default)
-  }, 'page')
+  }, 'base-page')
 }
 function PageNotFound(nextState, cb) {
   require.ensure([], (require) => {
     cb(null, require('../components/PageNotFound').default)
-  }, 'page')
+  }, 'base-page')
 }
 
 export default class Base extends Component {

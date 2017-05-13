@@ -164,7 +164,10 @@ module.exports = (env) => {
         path.resolve(__dirname, "src"),
         path.resolve(__dirname, "lib")
       ],
-      extensions: [".js", "json", ".jsx", ".css", ".scss", ".ts", ".tsx"]
+      extensions: [".js", "json", ".jsx", ".css", ".scss", ".ts", ".tsx"],
+      alias: {
+        '@': path.resolve(__dirname, "src")
+      }
     }
   }
 

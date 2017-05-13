@@ -1,8 +1,8 @@
 import React, { PropTypes, Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
 import classnames from 'classnames'
+import { PROCESS_GLOBAL, PROCESS_ALL } from '@/constants/config'
 
 class Progress extends Component {
   constructor() {

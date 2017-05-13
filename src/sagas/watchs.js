@@ -1,10 +1,10 @@
-import * as types from 'constants/actionTypes'
 import { delay } from 'redux-saga'
 import { call, put, fork, take, cancel, takeEvery } from 'redux-saga/effects'
-import encodeQueryData, { getUrlQuery } from 'utility/encodeQueryData'
-import { sysMessage } from 'actions/sys'
-import { FetchException } from 'constants/config'
 import jsonp from 'jsonp'
+import { sysMessage } from '@/actions/sys'
+import { FetchException } from '@/constants/config'
+import encodeQueryData, { getUrlQuery } from '@/utility/encodeQueryData'
+import * as types from '@/constants/actionTypes'
 
 
 async function fetchAPI(url, options) {

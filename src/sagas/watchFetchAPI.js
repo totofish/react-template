@@ -1,6 +1,6 @@
-import * as types from 'constants/actionTypes'
 import { delay } from 'redux-saga'
 import { call, put, fork, take, cancel, takeEvery } from 'redux-saga/effects'
+import * as types from '@/constants/actionTypes'
 
 /**
  * 此Saga方法將Fetch API處理邏輯完全交由使用者自己處理，只協助自動處理Processing Action部分

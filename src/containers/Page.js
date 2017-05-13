@@ -1,10 +1,10 @@
 import React, { Component, PropTypes } from 'react'
 import { Provider } from 'react-redux'
-import 'assets/sass/styles'
-import Title from 'components/Title'
 import { html } from 'react-libs'
 import 'react-libs/dist/react-libs.css'
-import Progress from 'components/Progress'
+import '@/assets/sass/styles'
+import Title from '@/components/Title'
+import Progress from '@/components/Progress'
 
 const { CenterBox } = html
 

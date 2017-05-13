@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Title from 'components/Title'
 import { html } from 'react-libs'
+import Title from '@/components/Title'
 
 // 如要內嵌img
 // var img = require("url!assets/images/file.png")

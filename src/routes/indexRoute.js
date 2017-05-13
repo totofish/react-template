@@ -1,4 +1,4 @@
-import EmptyPage from 'components/EmptyPage'
+import EmptyPage from '@/components/EmptyPage'
 
 const indexRedirect = (path) => (nextState, replace) => replace(path)
 const enterRoute = (path) => {

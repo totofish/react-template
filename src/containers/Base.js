@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react'
 import { Provider } from 'react-redux'
 import { Redirect, Router, Route, IndexRoute, IndexRedirect } from 'react-router'
-import routes from '../routes/indexRoute'
-import 'assets/sass/styles.scss'
 import 'react-libs/dist/react-libs.css'
+import routes from '@/routes/indexRoute'
+import '@/assets/sass/styles.scss'
 
 // 動態載入component
 function Stage(nextState, cb) {

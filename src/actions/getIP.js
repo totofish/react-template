@@ -1,8 +1,8 @@
-import * as types from 'constants/actionTypes'
-import { processingStart, processingEnd, randomRocessId } from 'actions/processing'
-import * as sysAction from 'actions/sys'
-import { multiAction } from 'actions/multiAction'
-import config, { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
+import { processingStart, processingEnd, randomRocessId } from '@/actions/processing'
+import * as sysAction from '@/actions/sys'
+import { multiAction } from '@/actions/multiAction'
+import * as types from '@/constants/actionTypes'
+import config, { PROCESS_GLOBAL, PROCESS_ALL } from '@/constants/config'
 
 /**
  * Get IP API

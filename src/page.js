@@ -7,10 +7,10 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import createLogger from 'redux-logger'
 import reducer from 'reducers'
 import createSagaMiddleware from 'redux-saga'
-import rootSaga from './sagas/rootSaga'
 import domready from 'domready'
-import { DEVELOPMENT } from 'constants/config'
-import Page from './containers/Page'
+import rootSaga from '@/sagas/rootSaga'
+import { DEVELOPMENT } from '@/constants/config'
+import Page from '@/containers/Page'
 
 const sagaMiddleware = createSagaMiddleware()
 const middlewares = [sagaMiddleware]

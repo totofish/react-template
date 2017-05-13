@@ -1,5 +1,5 @@
-import * as types from 'constants/actionTypes';
-import { PROCESS_GLOBAL, PROCESS_ALL } from 'constants/config'
+import * as types from '@/constants/actionTypes';
+import { PROCESS_GLOBAL, PROCESS_ALL } from '@/constants/config'
 
 
 export default function processing(state = [], action) {

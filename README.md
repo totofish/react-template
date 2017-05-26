@@ -1,10 +1,10 @@
 #React-template [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/totofish/react-template/master/LICENSE)
 
-使用 gulp + webpack 2 + react + react-router + react-redux 基礎workflow架構
+使用 gulp + webpack 2 + react 15.5 + react-router 4 + react-redux + redux-saga 基礎workflow架構
 
 
 
-##Usage
+## Usage
 
 ```shell
 $ yarn install
@@ -14,7 +14,7 @@ $ yarn run release      // production發佈
 $ yarn run addlibs      // add self git module
 ```
 
-##架構特點
+## 架構特點
 > 使用webpack-dev-server設置Router並使用hot熱加載作為Development階段預覽.
 >
 > Development & Production輸出皆會開啟瀏覽器實際運行結果(自動對應目前可用的port)
@@ -61,3 +61,11 @@ $ yarn run addlibs      // add self git module
     ]
   })
 ```
+
+## 使用React-router 4
+React-router 4 設計特性可以不是一層一層的route接續下去
+所以route可以直接跳過某些層，例如有/home/page但沒有/home對應component
+但延伸問題是有人用網址/home進網站就會沒有component對應到，這需要另外去防堵
+反而要自己在可能發生的route部分去特別處理
+另外route的先後順序影響很大，要確保你期望的route不會被更前面的route吃掉
+跟執行到的順序有很大關係

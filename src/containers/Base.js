@@ -1,39 +1,41 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { Provider } from 'react-redux'
-import { Redirect, Router, Route, IndexRoute, IndexRedirect } from 'react-router'
+// import { Redirect, Router, Route, IndexRoute, IndexRedirect } from 'react-router'
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom'
+import { DEVELOPMENT, BASE_PAGE_BASENAME } from '@/constants/config'
 import 'react-libs/dist/react-libs.css'
 import routes from '@/routes/indexRoute'
 import '@/assets/sass/styles.scss'
 
 // 動態載入component
-function Stage(nextState, cb) {
-  require.ensure([], (require) => {
-    cb(null, require('../components/Stage').default)
-  }, 'base-page')
-}
-function Scene(nextState, cb) {
-  require.ensure([], (require) => {
-    cb(null, require('../components/Scene').default)
-  }, 'base-page')
-}
-function PageNotFound(nextState, cb) {
-  require.ensure([], (require) => {
-    cb(null, require('../components/PageNotFound').default)
-  }, 'base-page')
-}
+import StageComponent from 'bundle-loader?lazy&name=base-page!../components/Stage'
+import PageNotFoundComponent from 'bundle-loader?lazy&name=base-page!../components/PageNotFound'
+
+import Bundle from '@/components/Bundle'
+
+
+const Stage = (data, { ...props }) => (
+  <Bundle load={StageComponent}>
+    {(Comp) => <Comp {...data} {...props} />}
+  </Bundle>
+)
+const PageNotFound = ({ ...props }) => (
+  <Bundle load={PageNotFoundComponent}>
+    {(Comp) => <Comp { ...props }/>}
+  </Bundle>
+)
 
 export default class Base extends Component {
   render() {
-    const { store, history, routerMiddleware } = this.props
-    // if(!this.routes) this.routes = routes
+    const { store } = this.props
     return (
       <Provider store={store}>
-        <Router key={Date.now()} history={history} render={routerMiddleware}>
-          <Route path="/" getComponent={Stage} childRoutes={routes}>
-            {/* <IndexRedirect to="/home" /> */}
-            <IndexRoute getComponent={Scene} jumpTo="home" />
-          </Route>
-          <Route path="*" getComponent={PageNotFound} />
+        <Router>
+          <Switch>
+            <Route path={BASE_PAGE_BASENAME} component={Stage.bind(this, {routes})}/>
+            <Route component={PageNotFound}/>
+          </Switch>
         </Router>
       </Provider>
     )
@@ -41,7 +43,5 @@ export default class Base extends Component {
 }
 
 Base.propTypes = {
-  store           : PropTypes.object.isRequired,
-  history         : PropTypes.object.isRequired,
-  routerMiddleware: PropTypes.func.isRequired
+  store: PropTypes.object.isRequired
 }

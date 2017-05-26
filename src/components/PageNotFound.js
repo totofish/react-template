@@ -1,4 +1,4 @@
-import React, { Component ,PropTypes } from 'react'
+import React, { Component } from 'react'
 import { BaseComponent, html } from 'react-libs'
 
 export default class PageNotFound extends BaseComponent {

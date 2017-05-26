@@ -101,10 +101,10 @@ gulp.task('webpack-dev-server', (callback) => {
       hot: true,
       stats: { colors: true },
       publicPath: config.output.publicPath,
-      setup: function(app) {
-        // [設定對應 Router]
-        app.use(require('./server.js'))
-      },
+      // setup: function(app) {
+      //   // [設定對應 Router]
+      //   app.use(require('./server.js'))
+      // },
       // historyApiFallback: {
       //   // [設定對應 Router],方法3
       //   rewrites: [
@@ -131,8 +131,8 @@ gulp.task('webpack-dev-server', (callback) => {
       // headers: { 'X-Custom-Header': 'yes' }
     })
 
-    // [設定對應 Router],方法2
-    // server.app.use(require('./server.js'))
+    // [設定對應 Router],方法2 -- 推薦用這
+    server.app.use(require('./server.js'))
 
     // listen
     server.listen(port, '0.0.0.0', (err) => {

@@ -29,19 +29,7 @@ if(env.production) {
 
 // 靜態檔案root目錄
 router.use(express.static(__dirname + staticFolder, cache))
-/*
-// 依照html檔名定義router
-fs.readdirSync(__dirname + rootFolder).forEach(function (file) {
-  if (fs.statSync(path.join(__dirname + rootFolder, file)).isFile()) {
-    if(/.html$/.test(file)) {
-      let fileName = file.replace(/.html$/, '')
-      router.get(`/${fileName}*`, (req, res, next) => {
-        res.sendFile(path.join(__dirname + rootFolder + file), cache)
-      })
-    }
-  }
-})
-*/
+
 // 動態設定等同下面結果
 router.get('/base*', (req, res, next) => {
   res.sendFile(path.join(__dirname + rootFolder + 'base.html'))

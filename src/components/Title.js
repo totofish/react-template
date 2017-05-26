@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { BaseComponent } from 'react-libs'
@@ -12,7 +13,15 @@ import config from '@/constants/config'
 import { PROCESS_GLOBAL, PROCESS_ALL } from '@/constants/config'
 import Crumbs from './Crumbs'
 
-export class Title extends BaseComponent {
+@connect(
+  state => ({
+    info: state.sys.info
+  }),
+  dispatch => bindActionCreators({
+    ...sysAction, ...processingAction, ...getIPAction, ...multiAction, ...getUTCAction
+  }, dispatch)
+)
+export default class Title extends BaseComponent {
   constructor(props) {
     super()
     this.click = this.click.bind(this)
@@ -20,7 +29,7 @@ export class Title extends BaseComponent {
   }
 
   click() {
-    if(this.props.router) this.props.router.push(this.props.jump.replace(':value', Date.now()))
+    if(this.props.history) this.props.history.push(this.props.jump.replace(':value', Date.now()))
   }
 
   sendMultiAction(){
@@ -67,12 +76,11 @@ export class Title extends BaseComponent {
   }
 
   render() {
-    const { text, jump } = this.props
-
+    const { text, jump, pathname, history } = this.props
     return (
       <div className="scene__title">
         {config.mode}<br/>
-        { this.props.router ? <Crumbs pathname={this.props.router.location.pathname} /> : null }
+        { pathname ? <Crumbs pathname={pathname} history={history} /> : null }
         { jump ? <button onClick={this.click} className="scene__button">Next Page</button> : null }
 
         <button onClick={this.sendMultiAction} className="scene__button">MultiAction API</button>
@@ -83,9 +91,9 @@ export class Title extends BaseComponent {
 }
 
 Title.propTypes = {
-  jump  : PropTypes.string,
-  router: PropTypes.object,
-  text  : PropTypes.string
+  jump    : PropTypes.string,
+  pathname: PropTypes.string,
+  text    : PropTypes.string
 }
 
 Title.defaultProps = {
@@ -93,11 +101,3 @@ Title.defaultProps = {
   text   : ''
 }
 
-export default connect(
-    state => ({
-      info: state.sys.info
-    }),
-    dispatch => bindActionCreators({
-      ...sysAction, ...processingAction, ...getIPAction, ...multiAction, ...getUTCAction
-    }, dispatch)
-)(Title)

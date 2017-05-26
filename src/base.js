@@ -4,11 +4,9 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import { createStore, applyMiddleware, compose } from 'redux'
-import { browserHistory, useRouterHistory, applyRouterMiddleware } from 'react-router'
-import { createHistory } from 'history'
-import createLogger from 'redux-logger'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
+import { createLogger } from 'redux-logger'
 import reducer from 'reducers'
-import useScroll from 'react-router-scroll/lib/useScroll'
 import createSagaMiddleware from 'redux-saga'
 import domready from 'domready'
 import * as types from '@/constants/actionTypes'
@@ -26,18 +24,15 @@ if (process.env.NODE_ENV === DEVELOPMENT) {
 const store = compose(applyMiddleware(...middlewares))(createStore)(reducer)
 sagaMiddleware.run(rootSaga)
 
-const history = useRouterHistory(createHistory)({ basename: BASE_PAGE_BASENAME })
 store.dispatch({
   type: types.ROUTE_DATA,
   routes
 })
 
-const routerMiddleware = applyRouterMiddleware(useScroll())
-
 const render = Component =>
   ReactDOM.render(
     <AppContainer>
-      <Component store={store} history={history} routerMiddleware={routerMiddleware} />
+      <Component store={store}/>
     </AppContainer>,
     document.getElementById('root')
   )

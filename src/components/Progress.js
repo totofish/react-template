@@ -1,10 +1,18 @@
-import React, { PropTypes, Component } from 'react'
+import React, { Component } from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import classnames from 'classnames'
 import { PROCESS_GLOBAL, PROCESS_ALL } from '@/constants/config'
 
-class Progress extends Component {
+@connect(
+  state => ({
+    processing: state.processing
+  }),
+  dispatch => bindActionCreators({
+
+  }, dispatch)
+)
+export default class Progress extends Component {
   constructor() {
     super()
   }
@@ -22,12 +30,3 @@ class Progress extends Component {
     )
   }
 }
-
-export default connect(
-    state => ({
-      processing: state.processing
-    }),
-    dispatch => bindActionCreators({
-
-    }, dispatch)
-)(Progress)

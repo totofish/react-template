@@ -102,18 +102,7 @@ module.exports = (env) => {
         {
           test: /\.js$/,
           use: [
-            {
-              loader: "babel-loader",
-              options: {
-                presets: [["es2015", {"modules": false}], "stage-0", "react"],
-                plugins: ["babel-plugin-transform-decorators-legacy", "react-hot-loader/babel"],
-                env: {
-                  development: {
-                    presets: []
-                  }
-                }
-              }
-            }
+            "babel-loader"
           ],
           exclude: /(node_modules|bower_components)/,
           include: [ path.join(__dirname, "src"), path.join(__dirname, "lib") ]

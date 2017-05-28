@@ -37,7 +37,7 @@ function api({ fullUrl, contentType, Authorization, method='GET', body={} }) {
     return fetchAPI(fullUrl, {
       method : method,
       headers: headers,
-      body   : method === 'GET' ? null : contentType === 'JSON' ? JSON.stringify(body) : encodeQueryData(body)
+      body   : method === 'GET' ? undefined : contentType === 'JSON' ? JSON.stringify(body) : encodeQueryData(body)
     })
   }
 }

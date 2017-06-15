@@ -64,7 +64,7 @@ module.exports = (env) => {
         chunks: ["commons", "base"],
         filename: 'base.html',
         template: "./src/ejs/base.ejs",
-        inject: "head",
+        inject: "body",
         hash: true,
         minify: {
           minifyCSS: env.production,
@@ -80,7 +80,7 @@ module.exports = (env) => {
         chunks: ["commons", "page"],
         filename: 'page.html',
         template: "./src/ejs/page.ejs",
-        inject: "head",
+        inject: "body",
         hash: true,
         minify: {
           minifyCSS: env.production,

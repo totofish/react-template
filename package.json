@@ -8,7 +8,7 @@
     "url": "https://github.com/totofish/react-template.git"
   },
   "scripts": {
-    "dev": "gulp webpack-dev-server",
+    "dev": "NODE_ENV=production gulp webpack-dev-server",
     "release": "gulp && webpack --env.production && gulp manifest && node server.js --env.production",
     "addlibs": "yarn add git+https://github.com/totofish/react-libs.git",
     "cp": "yarn run cp:console && yarn run cp:es5-sham && yarn run cp:es5-shim && yarn run cp:es6-promise && yarn run cp:es6-shim && yarn run cp:fetch && yarn run cp:xhr",
@@ -18,7 +18,10 @@
     "cp:es6-promise": "cp -f node_modules/es6-promise/dist/es6-promise.min.js src/assets/scripts",
     "cp:es6-shim": "cp -f node_modules/es6-shim/es6-shim.min.js src/assets/scripts",
     "cp:fetch": "cp -f node_modules/fetch-polyfill/fetch.js src/assets/scripts",
-    "cp:xhr": "cp -f node_modules/xhr-polyfill/dist/xhr-polyfill.js src/assets/scripts"
+    "cp:xhr": "cp -f node_modules/xhr-polyfill/dist/xhr-polyfill.js src/assets/scripts",
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "test:mocha": "NODE_PATH=./src NODE_ENV=test mocha test/helpers/browser.js test/**/*.spec.js"
   },
   "author": "totofish",
   "license": "MIT",
@@ -26,23 +29,29 @@
     "autoprefixer": "^7.1.0",
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
+    "babel-jest": "^20.0.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-plugin-webpack-alias": "^2.1.2",
     "babel-polyfill": "^6.23.0",
+    "babel-preset-airbnb": "^2.3.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
+    "babel-register": "^6.24.1",
     "bundle-loader": "^0.5.5",
+    "chai": "^4.0.2",
     "css-loader": "^0.28.1",
     "del": "^2.2.2",
     "ejs-loader": "^0.3.0",
+    "enzyme": "^2.9.1",
     "eslint": "^3.19.0",
     "eslint-plugin-react": "^7.0.1",
     "express": "^4.15.3",
     "extract-text-webpack-plugin": "^2.1.0",
     "file-loader": "^0.11.1",
     "gulp": "^3.9.1",
-    "gulp-imagemin": "^3.2.0",
+    "gulp-imagemin": "^3.3.0",
     "gulp-load-plugins": "^1.5.0",
     "gulp-manifest": "^0.1.1",
     "gulp-notify": "^3.0.0",
@@ -54,14 +63,19 @@
     "html-webpack-plugin": "^2.28.0",
     "image-webpack-loader": "^3.3.1",
     "img-loader": "^2.0.0",
+    "jest": "^20.0.4",
+    "jsdom": "^11.0.0",
     "json-loader": "^0.5.4",
     "minimist": "^1.2.0",
+    "mocha": "^3.4.2",
     "node-sass": "^4.5.3",
     "opener": "^1.4.3",
     "parallelshell": "^2.0.0",
     "portfinder": "^1.0.13",
     "postcss-loader": "^2.0.5",
+    "react-addons-test-utils": "^15.6.0",
     "react-hot-loader": "next",
+    "react-test-renderer": "^15.6.1",
     "sass-loader": "^6.0.5",
     "style-loader": "^0.17.0",
     "url-loader": "^0.5.8",
@@ -91,5 +105,15 @@
     "redux-logger": "^3.0.6",
     "redux-saga": "^0.15.3",
     "xhr-polyfill": "^0.1.8"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "bower_components",
+      "src"
+    ],
+    "moduleNameMapper": {
+      "^@(.*)$": "<rootDir>/src$1"
+    }
   }
 }

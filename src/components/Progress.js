@@ -13,10 +13,6 @@ import { PROCESS_GLOBAL, PROCESS_ALL } from '@/constants/config'
   }, dispatch)
 )
 export default class Progress extends Component {
-  constructor() {
-    super()
-  }
-
   render() {
     // 只顯示PROCESS_GLOBAL, PROCESS_ALL層級的processing
     let list = this.props.processing.filter((item) => {

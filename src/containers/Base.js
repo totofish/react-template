@@ -11,37 +11,30 @@ import '@/assets/sass/styles.scss'
 // 動態載入component
 import StageComponent from 'bundle-loader?lazy&name=base-page!../components/Stage'
 import PageNotFoundComponent from 'bundle-loader?lazy&name=base-page!../components/PageNotFound'
-
 import Bundle from '@/components/Bundle'
-
 
 const Stage = (data, { ...props }) => (
   <Bundle load={StageComponent}>
     {(Comp) => <Comp {...data} {...props} />}
   </Bundle>
 )
+
 const PageNotFound = ({ ...props }) => (
   <Bundle load={PageNotFoundComponent}>
     {(Comp) => <Comp { ...props }/>}
   </Bundle>
 )
 
-export default class Base extends Component {
-  render() {
-    const { store } = this.props
-    return (
-      <Provider store={store}>
-        <Router>
-          <Switch>
-            <Route path={BASE_PAGE_BASENAME} component={Stage.bind(this, {routes})}/>
-            <Route component={PageNotFound}/>
-          </Switch>
-        </Router>
-      </Provider>
-    )
-  }
-}
-
-Base.propTypes = {
-  store: PropTypes.object.isRequired
+export default function Base(props) {
+  const { store } = props
+  return (
+    <Provider store={store}>
+      <Router>
+        <Switch>
+          <Route path={BASE_PAGE_BASENAME} component={Stage.bind(this, {routes})}/>
+          <Route component={PageNotFound}/>
+        </Switch>
+      </Router>
+    </Provider>
+  )
 }

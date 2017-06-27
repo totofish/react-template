@@ -14,11 +14,6 @@ import _ from 'lodash'
   }, dispatch)
 )
 export default class Crumbs extends Component {
-
-  constructor() {
-    super()
-  }
-
   searchRouteflow(routeData, path, tags=[]) {
     for(let i=0, j=routeData.length; i<j; i++) {
       if(routeData[i].path === path) {

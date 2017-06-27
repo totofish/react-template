@@ -19,8 +19,8 @@ import Title from '@/components/Title'
   }, dispatch)
 )
 export default class Scene extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.searchRoute = this.searchRoute.bind(this)
   }
 
@@ -44,7 +44,7 @@ export default class Scene extends Component {
         <Redirect from={match.path} to={redirect}/>
         <Switch>
           {
-            route.routes ? 
+            route.routes ?
               route.routes.map((route, i) => {
                 return <Route key={i} path={route.path} component={route.component}/>
               })
@@ -70,7 +70,7 @@ export default class Scene extends Component {
         }
         <Switch>
           {
-            route.routes ? 
+            route.routes ?
               route.routes.map((route, i) => {
                 return <Route key={i} path={route.path} component={route.component}/>
               })

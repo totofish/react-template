@@ -23,7 +23,7 @@ import Crumbs from './Crumbs'
 )
 export default class Title extends BaseComponent {
   constructor(props) {
-    super()
+    super(props)
     this.click = this.click.bind(this)
     this.sendMultiAction = this.sendMultiAction.bind(this)
   }
@@ -100,4 +100,3 @@ Title.defaultProps = {
   jump   : '',
   text   : ''
 }
-

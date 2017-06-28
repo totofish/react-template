@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title.js <Title /> 1`] = `
+<div
+  className="scene__title"
+>
+  production
+  <br />
+  <button
+    className="scene__button"
+    onClick={[Function]}
+  >
+    MultiAction API
+  </button>
+  <div
+    className="scene__msg"
+  >
+    Info Message
+  </div>
+</div>
+`;
+
+exports[`Title.js <Title jump="/home/page" history={[]} pathname="/home/page/info" /> 1`] = `
+<div
+  className="scene__title"
+>
+  production
+  <br />
+  <div
+    className="crumbs"
+  >
+    <ol>
+      <li
+        className="crumbs__item"
+      >
+        <p
+          className="crumbs__link"
+          onClick={[Function]}
+        >
+          Home : Page
+        </p>
+        <i
+          className="material-icons crumbs__arrow"
+        >
+          
+        </i>
+      </li>
+      <li
+        className="crumbs__item"
+      >
+        <p
+          className="crumbs__link crumbs__link--strong"
+          onClick={[Function]}
+        >
+          Info
+        </p>
+      </li>
+    </ol>
+  </div>
+  <button
+    className="scene__button"
+    onClick={[Function]}
+  >
+    Next Page
+  </button>
+  <button
+    className="scene__button"
+    onClick={[Function]}
+  >
+    MultiAction API
+  </button>
+  <div
+    className="scene__msg"
+  >
+    Info Message
+  </div>
+</div>
+`;

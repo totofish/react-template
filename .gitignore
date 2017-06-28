@@ -4,4 +4,3 @@ npm-debug.log
 /dist
 /src/tmp
 /coverage
-__tests__

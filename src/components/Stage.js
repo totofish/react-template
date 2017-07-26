@@ -1,18 +1,27 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route, Link, Switch, Redirect } from 'react-router-dom'
-import Progress from '@/components/Progress'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
+import Progress from '@/components/Progress';
 
-export default function Stage(props) {
+export default function Stage({ routes }) {
   return (
     <div>
       <Switch>
         {
-          props.routes.map((route, i) => {
-            return <Route key={i} path={route.path} component={route.component}/>
-          })
+          routes.map(
+            route => <Route key={route.path} path={route.path} component={route.component} />,
+          )
         }
       </Switch>
       <Progress />
     </div>
-  )
+  );
 }
+
+Stage.propTypes = {
+  routes: PropTypes.arrayOf(PropTypes.object),
+};
+
+Stage.defaultProps = {
+  routes: [],
+};

@@ -1,100 +1,99 @@
-"use strict"
-
-const path                      = require("path")
-const autoprefixer              = require("autoprefixer")
-const webpack                   = require("webpack")
-const ExtractTextPlugin         = require("extract-text-webpack-plugin")
-const HtmlWebpackPlugin         = require("html-webpack-plugin")
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
-const fs                        = require("fs")
+const path                      = require('path');
+const autoprefixer              = require('autoprefixer');
+const webpack                   = require('webpack');
+const ExtractTextPlugin         = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin         = require('html-webpack-plugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const fs                        = require('fs');
 
 // 設定html上的base href
-const base = '/'
+const base = '/';
+let production;
 
 module.exports = (env) => {
   try {
-    env.production = env.production || false
-  } catch(e) {
-    env = { production: false }
+    production = env.production || false;
+  } catch (e) {
+    production = false;
   }
-  process.env.NODE_ENV = env.production ? "production" : "development"
+  process.env.NODE_ENV = production ? 'production' : 'development';
 
-  let config = {
+  const config = {
     entry: {
-      // "base": ["./src/base.js"],
-      // "page" : ["./src/page.js"],
-      "commons": ["fetch-polyfill", "react", "redux-saga", "react-router"]
+      // base : ["./src/base.js"],
+      // page : ["./src/page.js"],
+      commons: ['fetch-polyfill', 'react', 'redux-saga', 'react-router'],
     },
     output: {
       // libraryTarget: "umd",
-      path: path.join(__dirname, "dist"),
-      filename: "scripts/[name].js",
-      publicPath: "",
-      chunkFilename: "scripts/[name].chunk.js"
+      path: path.join(__dirname, 'dist'),
+      filename: 'scripts/[name].js',
+      publicPath: '',
+      chunkFilename: 'scripts/[name].chunk.js',
       // chunkFilename: "[name].[hash].js"
     },
     plugins: [
       new webpack.optimize.CommonsChunkPlugin({
-        name: "commons",
+        name: 'commons',
         minChunks: Infinity,
         // chunks: ["index", "page"]
       }),
       new webpack.DefinePlugin({
         // 將 Environment Variables - 環境變數傳入
-        "process.env.NODE_ENV": JSON.stringify(env.production ? "production" : "development")
+        'process.env.NODE_ENV': JSON.stringify(production ? 'production' : 'development'),
       }),
       new ExtractTextPlugin({
-        filename: "css/styles.css",
+        filename: 'css/styles.css',
         allChunks: true,
-        disable: false
+        disable: false,
       }),
       new webpack.LoaderOptionsPlugin({
-        debug: env.production ? false : true,
+        debug: !production,
         options: {
           context: __dirname,
           postcss: [
-            autoprefixer({ browsers: ["last 2 versions"], remove: false })
+            autoprefixer({ browsers: ['last 2 versions'], remove: false }),
           ],
           sassLoader: {
-            includePaths: [path.resolve(__dirname, "./src/assets/sass")]
-          }
-        }
+            includePaths: [path.resolve(__dirname, './src/assets/sass')],
+          },
+        },
       }),
       new HtmlWebpackPlugin({
-        chunks: ["commons", "base"],
+        chunks: ['commons', 'base'],
         filename: 'base.html',
-        template: "./src/ejs/base.ejs",
-        inject: "body",
+        template: './src/ejs/base.ejs',
+        inject: 'body',
         hash: true,
         minify: {
-          minifyCSS: env.production,
-          minifyJS: env.production,
-          removeComments: env.production,
-          collapseWhitespace: env.production,
-          preserveLineBreaks: true
+          minifyCSS: production,
+          minifyJS: production,
+          removeComments: production,
+          collapseWhitespace: production,
+          preserveLineBreaks: true,
         },
         alwaysWriteToDisk: true,
-        base: base
+        base,
       }),
       new HtmlWebpackPlugin({
-        chunks: ["commons", "page"],
+        chunks: ['commons', 'page'],
         filename: 'page.html',
-        template: "./src/ejs/page.ejs",
-        inject: "body",
+        template: './src/ejs/page.ejs',
+        inject: 'body',
         hash: true,
         minify: {
-          minifyCSS: env.production,
-          minifyJS: env.production,
-          removeComments: env.production,
-          collapseWhitespace: env.production,
-          preserveLineBreaks: true
+          minifyCSS: production,
+          minifyJS: production,
+          removeComments: production,
+          collapseWhitespace: production,
+          preserveLineBreaks: true,
         },
         alwaysWriteToDisk: true,
-        base: base
+        base,
       }),
       new HtmlWebpackHarddiskPlugin(
-        env.production ? null : { outputPath: path.resolve(__dirname, 'src/tmp') }
-      )
+        production ? null : { outputPath: path.resolve(__dirname, 'src/tmp') },
+      ),
     ],
     module: {
       rules: [
@@ -102,93 +101,92 @@ module.exports = (env) => {
         {
           test: /\.js$/,
           use: [
-            "babel-loader"
+            'babel-loader',
           ],
           exclude: /(node_modules|bower_components)/,
-          include: [ path.join(__dirname, "src"), path.join(__dirname, "lib") ]
+          include: [path.join(__dirname, 'src'), path.join(__dirname, 'lib')],
         }, {
           test: /\.(css|scss)$/,
           use: ExtractTextPlugin.extract({
-            fallback: "style-loader",
+            fallback: 'style-loader',
             use: [
               {
                 loader: 'css-loader',
-                options: { url: false, minimize: true }
+                options: { url: false, minimize: true },
               },
-              "postcss-loader",
-              "sass-loader",
+              'postcss-loader',
+              'sass-loader',
             ],
-            publicPath: "/dist/css"
-          })
+            publicPath: '/dist/css',
+          }),
         }, {
           test: /\.(jpe?g|png|gif|svg)$/i,
           use: [
             {
-              loader: "url-loader",
+              loader: 'url-loader',
               options: {
                 limit: 10000,
-                name: "[path][name].[ext]",
+                name: '[path][name].[ext]',
                 // context: "./src/assets",
-              }
+              },
             }, {
-              loader: "img-loader",
+              loader: 'img-loader',
               options: {
                 minimize: true,
                 optimizationLevel: 5,
-                progressive: true
-              }
-            }
-          ]
+                progressive: true,
+              },
+            },
+          ],
         }, {
           test: /\.json$/,
           use: [
-            "json-loader"
-          ]
-        }
-      ]
+            'json-loader',
+          ],
+        },
+      ],
     },
     resolve: {
       modules: [
-        "node_modules",
-        path.resolve(__dirname, "src"),
-        path.resolve(__dirname, "lib")
+        'node_modules',
+        path.resolve(__dirname, 'src'),
+        path.resolve(__dirname, 'lib'),
       ],
-      extensions: [".js", "json", ".jsx", ".css", ".scss", ".ts", ".tsx"],
+      extensions: ['.js', 'json', '.jsx', '.css', '.scss', '.ts', '.tsx'],
       alias: {
-        '@': path.resolve(__dirname, "src")
-      }
-    }
-  }
+        '@': path.resolve(__dirname, 'src'),
+      },
+    },
+  };
 
   // 指定./src/*.js為Bundle Entry
-  fs.readdirSync(__dirname + "/src").forEach(function (file) {
-    if (fs.statSync(path.join(__dirname + "/src", file)).isFile()) {
-      if(/.js$/.test(file)) {
-        let fileName = file.replace(/.js$/, "")
-        config.entry[`${fileName}`] = [`./src/${fileName}.js`]
+  fs.readdirSync(path.join(__dirname, 'src')).forEach((file) => {
+    if (fs.statSync(path.join(__dirname, 'src', file)).isFile()) {
+      if (/.js$/.test(file)) {
+        const fileName = file.replace(/.js$/, '');
+        config.entry[`${fileName}`] = [`./src/${fileName}.js`];
       }
     }
-  })
+  });
 
-
-  if(env.production) {
+  if (production) {
     config.plugins.unshift(
       new webpack.optimize.UglifyJsPlugin({
         comments: false,
         compress: {
-          warnings    : false,
-          dead_code   : true,
-          drop_console: true
-        }
-      })
-    )
+          warnings: false,
+          dead_code: true,
+          drop_console: true,
+        },
+      }),
+    );
   } else {
     config.plugins.unshift(
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
-      new webpack.NamedModulesPlugin()
-    )
+      new webpack.NamedModulesPlugin(),
+    );
   }
 
-  return config
-}
+  return config;
+};

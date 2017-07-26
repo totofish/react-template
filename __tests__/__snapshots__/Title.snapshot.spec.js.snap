@@ -20,7 +20,7 @@ exports[`Title.js <Title /> 1`] = `
 </div>
 `;
 
-exports[`Title.js <Title jump="/home/page" history={[]} pathname="/home/page/info" /> 1`] = `
+exports[`Title.js <Title jump="/home/page" history={history} pathname="/home/page/info" /> 1`] = `
 <div
   className="scene__title"
 >
@@ -33,12 +33,14 @@ exports[`Title.js <Title jump="/home/page" history={[]} pathname="/home/page/inf
       <li
         className="crumbs__item"
       >
-        <p
+        <div
           className="crumbs__link"
           onClick={[Function]}
+          role="button"
+          tabIndex={1}
         >
           Home : Page
-        </p>
+        </div>
         <i
           className="material-icons crumbs__arrow"
         >
@@ -48,12 +50,14 @@ exports[`Title.js <Title jump="/home/page" history={[]} pathname="/home/page/inf
       <li
         className="crumbs__item"
       >
-        <p
+        <div
           className="crumbs__link crumbs__link--strong"
           onClick={[Function]}
+          role="button"
+          tabIndex={2}
         >
           Info
-        </p>
+        </div>
       </li>
     </ol>
   </div>

@@ -1,12 +1,12 @@
-import { combineReducers } from 'redux'
-import sys from './sys'
-import processing from './processing'
-import routeData from './routeData'
+import { combineReducers } from 'redux';
+import sys from './sys';
+import processing from './processing';
+import routeData from './routeData';
 
 const reducer = combineReducers({
   sys,
   processing,
-  routeData
-})
+  routeData,
+});
 
-export default reducer
+export default reducer;

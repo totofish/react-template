@@ -1,14 +1,24 @@
 {
-  "ecmaFeatures": {
-    "jsx": true,
-    "modules": true
-  },
+  "extends": [
+    "airbnb"
+  ],
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "jest": true
   },
   "parser": "babel-eslint",
-  "plugins": [
-    "react"
-  ]
+  "rules": {
+    "no-console": 0,
+    "no-multi-spaces": [1, {
+      "exceptions": {
+        "VariableDeclarator": true
+      }
+    }],
+    "spaced-comment": [2, "always", {"exceptions": ["/"], "markers": ["/"]}],
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "max-len": ["error", { "code": 150, "ignoreTrailingComments": true }]
+  }
 }

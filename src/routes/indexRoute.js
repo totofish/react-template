@@ -1,13 +1,13 @@
-import React, { Component } from 'react'
-import { DEVELOPMENT, BASE_PAGE_BASENAME } from '@/constants/config'
-import SceneComponent from 'bundle-loader?lazy&name=base-page!../components/Scene'
-import Bundle from '@/components/Bundle'
+import React from 'react';
+import { BASE_PAGE_BASENAME } from '@/constants/config';
+import SceneComponent from 'bundle-loader?lazy&name=base-page!../components/Scene'; // eslint-disable-line import/no-extraneous-dependencies, import/no-webpack-loader-syntax
+import Bundle from '@/components/Bundle';
 
 const Scene = (data, { ...props }) => (
   <Bundle load={SceneComponent}>
-    {(Comp) => <Comp {...data} {...props} />}
+    { Comp => <Comp {...data} {...props} /> }
   </Bundle>
-)
+);
 
 /**
  * React-router 4 設計特性可以不是一層一層的route接續下去
@@ -20,48 +20,48 @@ const Scene = (data, { ...props }) => (
 
 export default [
   {
-    path     : `${BASE_PAGE_BASENAME}`,
-    component: Scene.bind(this, {jumpTo: `${BASE_PAGE_BASENAME}/home`}),
-    routes   : [
+    path: `${BASE_PAGE_BASENAME}`,
+    component: Scene.bind(this, { jumpTo: `${BASE_PAGE_BASENAME}/home` }),
+    routes: [
       {
-        tagName  : 'Home : Page',
-        path     : `${BASE_PAGE_BASENAME}/home/page`,
-        component: Scene.bind(this, {jumpTo: `${BASE_PAGE_BASENAME}/home/page/info`}),
-        routes   : [
+        tagName: 'Home : Page',
+        path: `${BASE_PAGE_BASENAME}/home/page`,
+        component: Scene.bind(this, { jumpTo: `${BASE_PAGE_BASENAME}/home/page/info` }),
+        routes: [
           {
-            tagName  : 'Info',
-            path     : `${BASE_PAGE_BASENAME}/home/page/info`,
-            component: Scene.bind(this, {jumpTo: `${BASE_PAGE_BASENAME}/doc`})
+            tagName: 'Info',
+            path: `${BASE_PAGE_BASENAME}/home/page/info`,
+            component: Scene.bind(this, { jumpTo: `${BASE_PAGE_BASENAME}/doc` }),
           }, {
             // 進入 /home/page/? 導回 /home/page
-            path     : `${BASE_PAGE_BASENAME}/home/page/`,
-            component: Scene.bind(this, {redirect: `${BASE_PAGE_BASENAME}/home/page`})
-          }
-        ]
+            path: `${BASE_PAGE_BASENAME}/home/page/`,
+            component: Scene.bind(this, { redirect: `${BASE_PAGE_BASENAME}/home/page` }),
+          },
+        ],
       }, {
         // 進入 /home/? 導回 /home/page
-        path     : `${BASE_PAGE_BASENAME}/home`,
-        component: Scene.bind(this, {redirect: `${BASE_PAGE_BASENAME}/home/page`})
+        path: `${BASE_PAGE_BASENAME}/home`,
+        component: Scene.bind(this, { redirect: `${BASE_PAGE_BASENAME}/home/page` }),
       }, {
-        tagName  : 'Doc',
-        path     : `${BASE_PAGE_BASENAME}/doc`,
-        component: Scene.bind(this, {jumpTo: `${BASE_PAGE_BASENAME}/demo`})
+        tagName: 'Doc',
+        path: `${BASE_PAGE_BASENAME}/doc`,
+        component: Scene.bind(this, { jumpTo: `${BASE_PAGE_BASENAME}/demo` }),
       }, {
-        tagName  : 'Demo',
-        path     : `${BASE_PAGE_BASENAME}/demo`,
-        component: Scene.bind(this, {jumpTo: `${BASE_PAGE_BASENAME}/demo/:value`}),
-        routes   : [
+        tagName: 'Demo',
+        path: `${BASE_PAGE_BASENAME}/demo`,
+        component: Scene.bind(this, { jumpTo: `${BASE_PAGE_BASENAME}/demo/:value` }),
+        routes: [
           {
-            tagName  : 'Value',
-            path     : `${BASE_PAGE_BASENAME}/demo/:value`,
-            component: Scene.bind(this, {jumpTo: `${BASE_PAGE_BASENAME}/home`})
-          }
-        ]
+            tagName: 'Value',
+            path: `${BASE_PAGE_BASENAME}/demo/:value`,
+            component: Scene.bind(this, { jumpTo: `${BASE_PAGE_BASENAME}/home` }),
+          },
+        ],
       }, {
         // 進入 /? 導回 /
-        path     : `${BASE_PAGE_BASENAME}/`,
-        component: Scene.bind(this, {redirect: `${BASE_PAGE_BASENAME}`}),
-      }
-    ]
-  }
-]
+        path: `${BASE_PAGE_BASENAME}/`,
+        component: Scene.bind(this, { redirect: `${BASE_PAGE_BASENAME}` }),
+      },
+    ],
+  },
+];

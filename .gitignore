@@ -4,3 +4,4 @@ npm-debug.log
 /dist
 /src/tmp
 /coverage
+junit.xml

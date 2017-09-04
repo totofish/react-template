@@ -1,4 +1,4 @@
-#React-template [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://raw.githubusercontent.com/totofish/react-template/master/LICENSE)
+# [React-template](https://github.com/totofish/react-template) &middot; [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/totofish/react-template/master/LICENSE) [![Build Status](https://travis-ci.org/totofish/react-template.svg?branch=master)](https://travis-ci.org/totofish/react-template)
 
 使用 gulp + webpack 2 + react 15.5 + react-router 4 + react-redux + redux-saga 基礎workflow架構
 

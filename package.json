@@ -22,7 +22,8 @@
     "cp:xhr": "cp -f node_modules/xhr-polyfill/dist/xhr-polyfill.js src/assets/scripts",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "test:mocha": "NODE_PATH=./src NODE_ENV=test mocha test/helpers/browser.js test/**/*.spec.js"
+    "test:mocha": "NODE_PATH=./src NODE_ENV=test mocha test/helpers/browser.js test/**/*.spec.js",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
   },
   "author": "totofish",
   "license": "MIT",
@@ -40,6 +41,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "bundle-loader": "^0.5.5",
     "chai": "^4.0.2",
+    "coveralls": "^2.13.1",
     "css-loader": "^0.28.1",
     "del": "^2.2.2",
     "ejs-loader": "^0.3.0",
